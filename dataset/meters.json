@@ -1,0 +1,10 @@
+{
+  "meters": [
+    {
+      "meterId": "M-0001",
+      "meterHash": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+      "cert": "cert-0001",
+      "active": true
+    }
+  ]
+}
