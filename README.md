@@ -1,4 +1,4 @@
-# Green Credit Capstone — Code Deliverables
+# Green Credit Capstone - Code Deliverables
 
 This repository contains the public mint contract (`GToken`), private side contracts (`MetReg`, `DataVer`),
 a pluggable verifier (`IVerifier`) and a demo verifier (`BBSPlusDemoVerifier`), plus scripts, tests,
