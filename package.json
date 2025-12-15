@@ -1,27 +1,22 @@
 {
-  "name": "green-credit-capstone",
-  "version": "1.0.0",
+  "name": "green-credit-capstone-v2",
+  "version": "2.0.0",
   "private": true,
+  "description": "V2: Tokenized Green Credits prototype with L2-aware public minting and L1 anchoring",
   "scripts": {
     "build": "hardhat compile",
+    "clean": "rm -rf artifacts cache coverage typechain-types",
     "test": "hardhat test",
-    "deploy:public": "hardhat run --network localhost script/deploy_public.ts",
-    "deploy:private": "hardhat run --network localhost script/deploy_private.ts",
-    "issue:vc": "ts-node script/issue_vc.ts",
-    "prove": "ts-node script/prove.ts",
-    "mint": "ts-node script/mint.ts",
-    "gas": "HARDHAT_GAS_REPORT=true hardhat test"
+    "test:gas": "REPORT_GAS=true hardhat test",
+    "lint": "echo 'Add eslint/prettier if desired'",
+    "demo:v2": "hardhat run scripts/demo_v2.ts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "hardhat": "^2.22.5",
-    "hardhat-gas-reporter": "^1.0.10",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.0",
-    "dotenv": "^16.4.1"
-  },
-  "dependencies": {
     "@openzeppelin/contracts": "^5.0.2",
-    "ethers": "^6.10.0"
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.15",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   }
 }
