@@ -1,67 +1,207 @@
-# Green Credit Capstone – V2 (Layer‑2 aware)
+# Practical Tokenized Green Credits - Capstone Prototype (V2: L2 Issuance + L1 Anchor)
 
-This repository is a **self‑contained prototype** for *tokenized green credits* with:
+This repository contains a minimal, end-to-end **prototype** for issuing **tokenized green credits** using a hybrid architecture:
 
-- **Private-side verification artifacts** (meter registry + data verification index)
-- **VC-style issuance (demo)** using an issuer signature over *hidden commitment + disclosed mint fields*
-- **Public minting on an EVM chain** via `GTokenL2` (ERC‑20) with:
-  - **duplicate‑guard** (no double-mint per disclosure tuple)
-  - **policy checks** (min qty, expiry)
-  - **L2 → L1 anchoring** (optional): after a successful mint on L2, the contract sends a cross-domain message to an L1 contract (`GTokenAnchor`) to record the mint.
+- **Private-domain verification**: meter registration + reading commitments + oracle verdicts + hash anchoring
+- **Public issuance on an L2-style execution environment**: ERC-20 minting with a strict **duplicate guard**
+- **L1 anchoring**: the L2 mint is **recorded on L1** through a cross-domain messenger interface to create a durable, auditable anchor
 
-> Why this is V2: the research direction is to **apply Layer‑2** to the *public mint* part of the architecture. This repo models that by (1) keeping the token on an L2 (`GTokenL2`) and (2) anchoring mints to L1 for auditability and better trust boundaries.
+> **Prototype note:** This is a capstone-oriented engineering artifact. It demonstrates architecture, protocol flow, and security-relevant checks (duplicate prevention, access control, cross-domain authorization), using local test harnesses and synthetic flows.
 
-## Repo map
+---
 
-- `contracts/private/MetReg.sol` – meter registry (private domain)
-- `contracts/private/DataVer.sol` – verification index (private domain)
-- `contracts/l2/GTokenL2.sol` – ERC‑20 minting contract intended for L2
-- `contracts/l1/GTokenAnchor.sol` – L1 anchoring contract that records L2 mints
-- `contracts/mocks/MockCrossDomainMessenger.sol` – local test messenger that simulates OP‑Stack style cross-domain messaging
-- `contracts/mocks/DemoVCVerifier.sol` – lightweight demo verifier (EIP-191 style signature check)
-- `scripts/deploy-v2.ts` – deploys an end‑to‑end demo locally
-- `scripts/demo-v2.ts` – runs a full “issue‑proof‑mint” flow
-- `test/v2.l2-anchoring.test.ts` – tests minting, duplicate guard, and L2→L1 anchoring
+## What this software does
 
-## Quick start (local)
+### Goal
+
+Enable a micro-producer (e.g., small solar/wind generator) to mint “green credit” tokens in a way that:
+
+1. Keeps sensitive verification and raw meter details **off the public chain**
+2. Allows public issuance to remain **auditable** (via an L1 anchor)
+3. Prevents **double counting** (duplicate mints for the same disclosure tuple)
+
+### High-level flow
+
+1. A meter is registered in `MetReg` (private domain).
+2. A reading commitment is recorded in `DataVer`.
+3. An oracle posts a verdict for the commitment.
+4. A credential/hash is anchored in `DataVer`.
+5. A holder mints on the L2 token contract (`GTokenL2`) by submitting a proof.
+6. The L2 contract sends a cross-domain message to `GTokenAnchor` on L1 to record the mint.
+7. Any attempt to mint again for the same disclosure tuple is rejected.
+
+---
+
+## Key features (V2)
+
+- **L2 minting contract (`GTokenL2`)**
+
+  - ERC‑20 token mint
+  - Proof-gated issuance (demo proof verifier interface)
+  - Duplicate prevention using a deterministic `dtHash`
+- **L1 anchor contract (`GTokenAnchor`)**
+
+  - Records a mint only when called **through a messenger**
+  - Enforces the authorized **cross-domain sender** (the L2 token contract)
+  - Stores anchor metadata keyed by `dtHash`
+- **Local cross-domain messaging harness**
+
+  - A mock messenger contract simulates the cross-domain messaging pattern locally
+  - Enables reproducible tests of “L2 → messenger → L1 anchor” authorization logic
+- **Private-domain verification contracts**
+
+  - `MetReg`: meter registry with activation status
+  - `DataVer`: reading commitments + oracle verdicts + VC hash anchoring
+
+---
+
+## Repository structure
+
+```
+contracts/
+  interfaces/
+    ICrossDomainMessenger.sol
+    IGTokenAnchor.sol
+    IProofVerifier.sol
+
+  private/
+    MetReg.sol
+    DataVer.sol
+
+  l2/
+    GTokenL2.sol
+
+  l1/
+    GTokenAnchor.sol
+
+  mocks/
+    DemoIssuerVerifier.sol
+    MockCrossDomainMessenger.sol
+
+scripts/
+  deploy_v2_local.ts
+  demo_v2_local.ts
+  oracle_verify.py
+
+test/
+  private_contracts.test.ts
+  v2_l2_anchor.test.ts
+```
+
+---
+
+## Contracts overview
+
+### Private domain
+
+#### `MetReg` (Meter Registry)
+
+- Registers meters and maintains an “active” flag.
+- Intended to represent a registry authority / governance authority function.
+
+#### `DataVer` (Verification Index)
+
+- Stores:
+  - reading commitments (`readingHash`)
+  - oracle verdicts
+  - anchored VC hash (`vcHash`) linked to a reading commitment
+
+### Public domain (L2 + L1)
+
+#### `GTokenL2` (L2 ERC‑20 token)
+
+- Mints green tokens on L2 after a proof verifies.
+- Prevents duplicate mints using `dtHash`, derived from:
+
+**Disclosure Tuple (DT)**
+
+- `epochIndex` (uint64)
+- `typeCode` (uint16)
+- `qtyKWh` (uint256)
+- `policyNonce` (uint128)
+
+**Duplicate key**
+`dtHash = keccak256(abi.encodePacked(epochIndex, typeCode, qtyKWh, policyNonce))`
+
+#### `GTokenAnchor` (L1 Anchor)
+
+- Records the mint on L1 via:
+  - a mandatory **messenger** caller
+  - a verified **cross-domain sender** (must equal the configured L2 token address)
+- Stores `AnchorInfo` for each `dtHash`.
+
+---
+
+## Getting started
+
+### Prerequisites
+
+- Node.js (recommended: Node 18+)
+- npm
+
+### Install
 
 ```bash
-npm i
-npm run build
+npm install
+```
+
+### Run tests
+
+```bash
+npx hardhat clean
 npm test
-npm run demo:v2
+```
+
+Expected: all tests passing, including:
+
+- Private-side contract tests
+- L2 mint + L1 anchor tests
+
+---
+
+## Run the end-to-end demo (local)
+
+This script demonstrates:
+
+- deployment
+- digest computation
+- proof/signature generation (demo verifier)
+- L2 mint
+- L1 anchor recording
+- duplicate mint prevention
+
+Run:
+
+```bash
+npx hardhat run scripts/demo_v2_local.ts
 ```
 
 The demo prints:
-- deployed addresses
-- a generated *hidden commitment*
-- the computed disclosure tuple hash
-- token balance after mint
-- L1 anchor record for the mint
 
-## How the “VC proof” works (demo)
+- the holder address and mint parameters
+- the computed digest used for proof/signature
+- the mint tx hash
+- the holder’s L2 token balance
+- anchor status + anchor info from L1
+- a duplicate mint attempt that must revert
 
-This is an **engineering demo** that is executable and testable:
+---
 
-- The issuer signs a digest over:
-  - `hiddenCommitment` (hash of owner/meter/site)
-  - disclosure tuple fields `(epoch, typeCode, qtyKWh, policyNonce)`
-  - `expiry`
-- The user submits the signature as `proof`.
-- `DemoVCVerifier` checks the signature and expiry.
+## Security and correctness notes
 
-In the final capstone report, the *cryptographic goal* is BBS+ selective disclosure and proof of possession. The demo verifier is a stand-in to keep the prototype runnable.
+This prototype includes engineering controls that are intentionally testable:
 
-## Layer‑2 angle
+- **Duplicate prevention**: `dtHash` is write-once (no double mint for same DT)
+- **Cross-domain authorization on L1**:
+  - L1 anchor rejects direct calls that bypass the messenger
+  - L1 anchor rejects calls where `xDomainMessageSender` is not the authorized L2 contract
+- **Role-based controls** on private-side contracts (registry/admin/oracle roles)
 
-In a real OP‑Stack L2 deployment (Optimism/Base):
-- `GTokenL2` would use the canonical **L2CrossDomainMessenger** to send a message to L1.
-- `GTokenAnchor` would verify that:
-  - `msg.sender` is the L1 messenger, and
-  - `xDomainMessageSender()` is the trusted L2 contract.
+> Production deployments require additional security work:
+> audits, rollup-specific messenger addresses, upgrade governance, monitoring, and real credential proof systems (e.g., BBS+/ZK) instead of the demo verifier.
 
-In this repo:
-- `MockCrossDomainMessenger` simulates that behavior on a single Hardhat chain.
+---
 
 ## License
+
 MIT
