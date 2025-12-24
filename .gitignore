@@ -1,16 +1,18 @@
-# dependencies
 node_modules/
-
-# hardhat build outputs
 artifacts/
 cache/
-
-# typechain generated
 typechain-types/
-
-# logs
-*.log
-
-# env
+coverage/
+coverage.json
 .env
 .env.*
+dist/
+out/
+*.log
+
+# Foundry
+lib/
+broadcast/
+
+# OS
+.DS_Store

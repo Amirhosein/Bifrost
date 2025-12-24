@@ -1,204 +1,271 @@
-# Practical Tokenized Green Credits - Capstone Prototype (V2: L2 Issuance + L1 Anchor)
+# Privacy‑Preserving Tokenized Green Credits (L2 Mint + L1 Anchor)
 
-This repository contains a minimal, end-to-end **prototype** for issuing **tokenized green credits** using a hybrid architecture:
+This repository contains a deployable engineering prototype for **tokenized green credit issuance** that:
 
-- **Private-domain verification**: meter registration + reading commitments + oracle verdicts + hash anchoring
-- **Public issuance on an L2-style execution environment**: ERC-20 minting with a strict **duplicate guard**
-- **L1 anchoring**: the L2 mint is **recorded on L1** through a cross-domain messenger interface to create a durable, auditable anchor
+- keeps **meter / site / raw reading data off public chains** (public chains see only minimal issuance fields + hashes),
+- enforces **duplicate prevention** at the smart‑contract level, and
+- supports **Layer‑2 (L2) minting** with an **auditable Layer‑1 (L1) anchor** via authenticated **L2→L1 messaging**.
 
-> **Prototype note:** This is a capstone-oriented engineering artifact. It demonstrates architecture, protocol flow, and security-relevant checks (duplicate prevention, access control, cross-domain authorization), using local test harnesses and synthetic flows.
-
----
-
-## What this software does
-
-### Goal
-
-Enable a micro-producer (e.g., small solar/wind generator) to mint “green credit” tokens in a way that:
-
-1. Keeps sensitive verification and raw meter details **off the public chain**
-2. Allows public issuance to remain **auditable** (via an L1 anchor)
-3. Prevents **double counting** (duplicate mints for the same disclosure tuple)
-
-### High-level flow
-
-1. A meter is registered in `MetReg` (private domain).
-2. A reading commitment is recorded in `DataVer`.
-3. An oracle posts a verdict for the commitment.
-4. A credential/hash is anchored in `DataVer`.
-5. A holder mints on the L2 token contract (`GTokenL2`) by submitting a proof.
-6. The L2 contract sends a cross-domain message to `GTokenAnchor` on L1 to record the mint.
-7. Any attempt to mint again for the same disclosure tuple is rejected.
+The codebase is designed to run **fully locally (no funded wallets required)** using Hardhat, including mock cross‑chain components and reproducible gas measurements.
 
 ---
 
-## Key features (V2)
+## High‑level architecture
 
-- **L2 minting contract (`GTokenL2`)**
+### Domains and responsibilities
 
-  - ERC‑20 token mint
-  - Proof-gated issuance (demo proof verifier interface)
-  - Duplicate prevention using a deterministic `dtHash`
-- **L1 anchor contract (`GTokenAnchor`)**
+**1) Private verification domain (hashes only)**
 
-  - Records a mint only when called **through a messenger**
-  - Enforces the authorized **cross-domain sender** (the L2 token contract)
-  - Stores anchor metadata keyed by `dtHash`
-- **Local cross-domain messaging harness**
+- `MetReg` — meter registry with GA‑controlled activation/revocation status
+- `DataVer` — reading commitment index + oracle verdicts + VC (credential) hash anchoring
 
-  - A mock messenger contract simulates the cross-domain messaging pattern locally
-  - Enables reproducible tests of “L2 → messenger → L1 anchor” authorization logic
-- **Private-domain verification contracts**
+This domain is intentionally minimal and stores **only hashes and status flags** so private details do not appear on public networks.
 
-  - `MetReg`: meter registry with activation status
-  - `DataVer`: reading commitments + oracle verdicts + VC hash anchoring
+**2) Public minting domain (L2)**
+
+- L2 token contracts mint ERC‑20 “green credits” after:
+  - verifying an authorization proof (via a verifier interface), and
+  - enforcing duplicate prevention using a canonical disclosure tuple hash (`dtHash`)
+
+**3) Public audit domain (L1 anchor)**
+
+- L1 anchor contracts store an immutable record of each mint, accepted **only** through authenticated cross‑chain calls.
 
 ---
 
-## Repository structure
+## What’s implemented
+
+### Core features
+
+- **ERC‑20 minting** gated by a verifier (`IProofVerifier`).
+- **Duplicate‑guard** keyed by a canonical Disclosure Tuple (DT) hash.
+- Two L1 anchoring patterns:
+  - **Generic messenger** pattern (OP‑Stack‑style authentication).
+  - **Arbitrum outbox** pattern (Bridge/Outbox + `l2ToL1Sender()` authentication).
+- **Local “mock” cross‑chain environment** so you can demonstrate end‑to‑end behavior without funding wallets.
+- **Reproducible gas report** that separates L2 mint cost from the later L1 anchor execution cost.
+
+---
+
+## Directory structure
 
 ```
+artifacts/
+cache/
 contracts/
-  interfaces/
-    ICrossDomainMessenger.sol
-    IGTokenAnchor.sol
-    IProofVerifier.sol
-
-  private/
-    MetReg.sol
-    DataVer.sol
-
-  l2/
-    GTokenL2.sol
-
-  l1/
-    GTokenAnchor.sol
-
-  mocks/
-    DemoIssuerVerifier.sol
-    MockCrossDomainMessenger.sol
-
+data/
+dataset/
+docs/
+ECE 910 Final Report.pdf
+foundry-test/
+hardhat.config.ts
+node_modules/
+package-lock.json
+package.json
+README.md
+script/
 scripts/
-  deploy_v2_local.ts
-  demo_v2_local.ts
-  oracle_verify.py
-
 test/
-  private_contracts.test.ts
-  v2_l2_anchor.test.ts
+tsconfig.json
+typechain-types/
+foundry.toml
 ```
 
----
+### Recommended
 
-## Contracts overview
+Keep these under version control:
 
-### Private domain
+- `contracts/` (all Solidity)
+- `scripts/` (TypeScript scripts used by npm commands)
+- `test/` (Hardhat tests)
+- `docs/` (gas report JSON, diagrams metadata, notes)
+- `dataset/` and/or `data/` (if used by scripts; synthetic only)
+- `hardhat.config.ts`, `package.json`, `package-lock.json`, `tsconfig.json`, `foundry.toml`
 
-#### `MetReg` (Meter Registry)
 
-- Registers meters and maintains an “active” flag.
-- Intended to represent a registry authority / governance authority function.
+## Prerequisites
 
-#### `DataVer` (Verification Index)
-
-- Stores:
-  - reading commitments (`readingHash`)
-  - oracle verdicts
-  - anchored VC hash (`vcHash`) linked to a reading commitment
-
-### Public domain (L2 + L1)
-
-#### `GTokenL2` (L2 ERC‑20 token)
-
-- Mints green tokens on L2 after a proof verifies.
-- Prevents duplicate mints using `dtHash`, derived from:
-
-**Disclosure Tuple (DT)**
-
-- `epochIndex` (uint64)
-- `typeCode` (uint16)
-- `qtyKWh` (uint256)
-- `policyNonce` (uint128)
-
-**Duplicate key**
-`dtHash = keccak256(abi.encodePacked(epochIndex, typeCode, qtyKWh, policyNonce))`
-
-#### `GTokenAnchor` (L1 Anchor)
-
-- Records the mint on L1 via:
-  - a mandatory **messenger** caller
-  - a verified **cross-domain sender** (must equal the configured L2 token address)
-- Stores `AnchorInfo` for each `dtHash`.
-
----
-
-## Getting started
-
-### Prerequisites
-
-- Node.js (recommended: Node 18+)
+- Node.js
 - npm
 
-### Install
+---
+
+## Quickstart (local, no funds required)
+
+### 1) Install dependencies
 
 ```bash
 npm install
 ```
 
-### Run tests
+### 2) Clean + run the test suite
 
 ```bash
 npx hardhat clean
 npm test
 ```
 
-Expected: all tests passing, including:
+Expected: all tests pass, including private‑side registry/indexing tests, Arbitrum anchor authentication tests, and V2 mint + L1 anchor tests.
 
-- Private-side contract tests
-- L2 mint + L1 anchor tests
-
----
-
-## Run the end-to-end demo (local)
-
-This script demonstrates:
-
-- deployment
-- digest computation
-- proof/signature generation (demo verifier)
-- L2 mint
-- L1 anchor recording
-- duplicate mint prevention
-
-Run:
+### 3) Run the V2 local demo (mint + anchor)
 
 ```bash
-npx hardhat run scripts/demo_v2_local.ts
+npm run demo:v2
 ```
 
-The demo prints:
+Expected behavior:
 
-- the holder address and mint parameters
-- the computed digest used for proof/signature
-- the mint tx hash
-- the holder’s L2 token balance
-- anchor status + anchor info from L1
-- a duplicate mint attempt that must revert
+- prints holder address and issuance fields (`epochIndex`, `typeCode`, `qtyKWh`, etc.)
+- mints tokens on the local L2 instance
+- confirms the mint is anchored on the local L1 instance
+- attempts a duplicate mint and shows it reverts with `DuplicateDT()`
+
+### 4) Run the Arbitrum anchor demo (mock)
+
+```bash
+npm run demo:arb:mock
+```
+
+Expected behavior:
+
+1) direct call from an EOA reverts (not from bridge/outbox)
+2) outbox call with wrong L2 sender reverts
+3) outbox call with correct L2 sender succeeds and stores anchor info
+4) duplicate anchor attempt reverts
+
+### 5) Generate the local gas report (JSON)
+
+```bash
+npm run gas:v2
+```
+
+Outputs:
+
+- a console table of measured gas and calldata sizes
+- `docs/gas_report_v2_local.json`
+
+**Interpretation note:** On real optimistic rollups, the **L2 mint** and the **L1 anchor execution** are **separate transactions**. The gas report therefore distinguishes:
+
+- L2 mint cost excluding later L1 execution
+- modeled L1 execution gas for `recordMint`
+- a “combined local” number used only for synchronous unit‑test convenience
 
 ---
 
-## Security and correctness notes
+## How duplicate prevention works
 
-This prototype includes engineering controls that are intentionally testable:
+Minting is keyed by a **Disclosure Tuple (DT)** defined by policy:
 
-- **Duplicate prevention**: `dtHash` is write-once (no double mint for same DT)
-- **Cross-domain authorization on L1**:
-  - L1 anchor rejects direct calls that bypass the messenger
-  - L1 anchor rejects calls where `xDomainMessageSender` is not the authorized L2 contract
-- **Role-based controls** on private-side contracts (registry/admin/oracle roles)
+- `epochIndex` (uint64)
+- `typeCode` (uint16)
+- `qtyKWh` (uint256)
+- `policyNonce` (uint128)
 
-> Production deployments require additional security work:
-> audits, rollup-specific messenger addresses, upgrade governance, monitoring, and real credential proof systems (e.g., BBS+/ZK) instead of the demo verifier.
+The minting contract computes:
+
+- `dtHash = keccak256(abi.encodePacked(epochIndex, typeCode, qtyKWh, policyNonce))`
+
+A mapping `usedDT[dtHash]` is set on the first successful mint and never cleared.
+Any subsequent attempt to mint the same DT reverts with `DuplicateDT()`.
+
+This guard is designed to remain correct even if the proof mechanism changes (ECDSA now, selective disclosure / ZK later).
+
+---
+
+## Proof/authorization model (current prototype)
+
+Minting is gated by a verifier interface (`IProofVerifier`).
+
+The current implementation uses `DemoIssuerVerifier` with **ECDSA signature checks** as an engineering placeholder for stronger credential proofs.
+
+Design notes:
+
+- the signed digest binds to the **holder address** (prevents third‑party replay),
+- the digest includes an **opaque hidden commitment** (`bytes32`) which can bind off‑chain evidence without revealing it on‑chain.
+
+---
+
+## L2 → L1 anchoring models
+
+Two anchoring patterns are implemented:
+
+### 1) Generic messenger model (OP‑Stack‑style)
+
+The L1 anchor accepts `recordMint(...)` only when:
+
+- `msg.sender == messenger`, and
+- `messenger.xDomainMessageSender() == allowlistedL2Token`
+
+### 2) Arbitrum outbox model
+
+The Arbitrum‑specific L1 anchor accepts `recordMint(...)` only when:
+
+- `msg.sender == bridge.activeOutbox()`, and
+- `IOutbox(msg.sender).l2ToL1Sender() == allowlistedL2Token`
+
+Mocks are included so this logic is testable locally.
+
+---
+
+## Optional testnet deployment (requires funded key)
+
+This repo can be configured for Sepolia + Arbitrum Sepolia deployments.
+
+1) Copy env template:
+
+```bash
+cp .env.example .env
+```
+
+2) Fill in:
+
+- `DEPLOYER_PRIVATE_KEY`
+- `SEPOLIA_RPC_URL`
+- `ARBITRUM_SEPOLIA_RPC_URL`
+- any L1 bridge/outbox addresses required by scripts (from official Arbitrum docs)
+
+⚠️ Never commit real private keys to git.
+
+If you do **not** have funds, you can still demonstrate correctness using the local mocks (`demo:v2`, `demo:arb:mock`) and the test suite.
+
+---
+
+## Troubleshooting
+
+### “Network `<name>` doesn’t exist”
+
+If you see Hardhat errors like “Network sepolia doesn’t exist”, ensure:
+
+- your `hardhat.config.ts` defines that network name, and
+- your `.env` has the required RPC and key variables.
+
+### Tests fail after copying files
+
+Run clean:
+
+```bash
+npx hardhat clean
+npm test
+```
+
+---
+
+## Scope / ethics note
+
+This is a **technical prototype**. Tokens produced by this system are **not official RECs** and do not provide regulatory compliance on their own. The design goal is to keep **PII and raw meter readings off public chains**, but real‑world privacy also depends on off‑chain operational practices.
+
+---
+
+## Suggested `.gitignore` (if using git)
+
+```gitignore
+node_modules/
+artifacts/
+cache/
+typechain-types/
+.env
+.DS_Store
+```
 
 ---
 

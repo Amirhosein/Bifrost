@@ -9,7 +9,19 @@
     "test": "hardhat test",
     "test:gas": "REPORT_GAS=true hardhat test",
     "lint": "echo 'Add eslint/prettier if desired'",
-    "demo:v2": "hardhat run scripts/demo_v2.ts"
+    "demo:v2": "hardhat run scripts/demo_v2_local.ts",
+    "demo:arb:mock": "hardhat run scripts/demo_arbitrum_l1_mock.ts",
+    "gas:v2": "hardhat run scripts/gas_report_v2_local.ts",
+    "demo:l2:arbitrum:mint": "hardhat run --network arbitrumSepolia scripts/demo_l2_arbitrum_mint.ts",
+    "check:l1:arbitrum:anchor": "hardhat run --network sepolia scripts/check_l1_arbitrum_anchor.ts",
+
+    "deploy:l1:opstack": "hardhat run --network sepolia scripts/deploy_l1_anchor_opstack.ts",
+    "config:l1:opstack": "hardhat run --network sepolia scripts/configure_l1_anchor_opstack.ts",
+    "deploy:l2:opstack": "hardhat run --network optimismSepolia scripts/deploy_l2_opstack.ts",
+
+    "deploy:l1:arbitrum": "hardhat run --network sepolia scripts/deploy_l1_anchor_arbitrum.ts",
+    "config:l1:arbitrum": "hardhat run --network sepolia scripts/configure_l1_anchor_arbitrum.ts",
+    "deploy:l2:arbitrum": "hardhat run --network arbitrumSepolia scripts/deploy_l2_arbitrum.ts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",

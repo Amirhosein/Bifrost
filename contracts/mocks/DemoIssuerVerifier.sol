@@ -89,13 +89,10 @@ contract DemoIssuerVerifier is IProofVerifier {
         bytes calldata proof
     ) external view override returns (bool) {
         if (block.timestamp > expiry) return false;
-
         bytes32 d = digest(to, dtHash, hiddenCommitment, epochIndex, typeCode, qtyKWh, policyNonce, expiry);
-
         // Ethereum signed message prefix (EIP-191) for wallet signatures.
         bytes32 ethSigned = d.toEthSignedMessageHash();
         address recovered = ethSigned.recover(proof);
-
         return recovered == issuerSigner;
     }
 }

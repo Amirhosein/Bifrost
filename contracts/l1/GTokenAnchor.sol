@@ -2,32 +2,32 @@
 pragma solidity ^0.8.23;
 
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+
 import {ICrossDomainMessenger} from "../interfaces/ICrossDomainMessenger.sol";
 
 /**
  * @title GTokenAnchor (L1)
  * @notice Records an L2 mint on L1 through a CrossDomainMessenger.
  *
- * Matches the Hardhat tests:
- *  - constructor(messenger, <unused>)
- *  - ONLY setConfig(messenger, l2GToken) (no overloads -> no ethers ambiguity)
- *  - recordMint can ONLY be called by messenger
- *  - msg.sender != messenger => NotFromMessenger
- *  - wrong xDomain sender OR not configured => NotFromAuthorizedL2Sender
- *  - view helpers: isAnchored(dtHash), anchorInfo(dtHash)
+ * The Hardhat tests in this repo simulate an Optimism-style flow:
+ *  - L2 GToken calls messenger.sendMessage(..., recordMint(...))
+ *  - messenger calls this contract on L1
+ *  - this contract checks:
+ *      (1) msg.sender == messenger
+ *      (2) messenger.xDomainMessageSender() == authorized L2 GToken
+ *  - then stores the mint info and emits an event.
  */
 contract GTokenAnchor is AccessControl {
-    // --- Custom errors expected by tests ---
+    // ----------------------
+    // Errors (match tests)
+    // ----------------------
     error NotFromMessenger();
     error NotFromAuthorizedL2Sender();
     error AlreadyAnchored(bytes32 dtHash);
 
-    // --- Config ---
-    ICrossDomainMessenger public messenger;
-    address public l2GToken; // authorized L2 sender
-    bool public configured;
-
-    // --- Storage ---
+    // ----------------------
+    // Types / Storage
+    // ----------------------
     struct AnchorInfo {
         address to;
         uint256 gtAmount;
@@ -37,9 +37,21 @@ contract GTokenAnchor is AccessControl {
         uint256 timestamp;
     }
 
+    /// @notice L1 messenger (e.g., Optimism CrossDomainMessenger)
+    ICrossDomainMessenger public messenger;
+
+    /// @notice Authorized L2 sender (set via setConfig)
+    address public l2GToken;
+
+    /// @notice Explicit config flag: tests expect that even if a value is passed in the
+    /// constructor, messages should be rejected until setConfig is called.
+    bool public configured;
+
     mapping(bytes32 => AnchorInfo) private _anchors;
 
-    // --- Events ---
+    // ----------------------
+    // Events
+    // ----------------------
     event MintAnchored(
         bytes32 indexed dtHash,
         address indexed to,
@@ -49,23 +61,34 @@ contract GTokenAnchor is AccessControl {
         uint256 qtyKWh
     );
 
-    constructor(address messenger_, address /*unused*/) {
+    // ----------------------
+    // Constructor / Config
+    // ----------------------
+
+    /// @param messenger_ Address of the L1 CrossDomainMessenger (mocked in tests)
+    /// @param _unused    Kept for backward-compat with earlier drafts/tests; ignored.
+    constructor(address messenger_, address _unused) {
+        _unused; // silence unused var warning
+
         messenger = ICrossDomainMessenger(messenger_);
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
 
-        // Start unconfigured; tests expect NotFromAuthorizedL2Sender before setConfig()
+        // Explicitly start “unconfigured” (tests rely on this).
         configured = false;
         l2GToken = address(0);
     }
 
-    /**
-     * @notice Set messenger + authorized L2 sender (ONLY version; avoids ethers overload ambiguity)
-     */
+    /// @notice Set messenger + authorized L2 sender.
+    /// @dev Single (non-overloaded) setter to avoid ethers v6 overload ambiguity in tests.
     function setConfig(address messenger_, address l2GToken_) external onlyRole(DEFAULT_ADMIN_ROLE) {
         messenger = ICrossDomainMessenger(messenger_);
         l2GToken = l2GToken_;
         configured = true;
     }
+
+    // ----------------------
+    // Views
+    // ----------------------
 
     function isAnchored(bytes32 dtHash) external view returns (bool) {
         return _anchors[dtHash].timestamp != 0;
@@ -75,9 +98,11 @@ contract GTokenAnchor is AccessControl {
         return _anchors[dtHash];
     }
 
-    /**
-     * @notice Called by the L1 messenger as the final step of an L2 mint.
-     */
+    // ----------------------
+    // Recording
+    // ----------------------
+
+    /// @notice Record a mint. Must be called by messenger; x-domain sender must be authorized L2.
     function recordMint(
         bytes32 dtHash,
         address to,
@@ -88,7 +113,7 @@ contract GTokenAnchor is AccessControl {
     ) external {
         if (msg.sender != address(messenger)) revert NotFromMessenger();
 
-        // Must be configured and must come from authorized L2 sender.
+        // Require that setConfig ran AND the x-domain sender matches.
         if (!configured || messenger.xDomainMessageSender() != l2GToken) {
             revert NotFromAuthorizedL2Sender();
         }

@@ -47,6 +47,8 @@ contract MetReg is AccessControl {
         MeterRecord storage r = meters[meterIDHash];
         return r.isActive && r.updatedAt != 0 && r.cert.length > 0;
     }
+
+
     /// @notice Convenience view helper (used by tests / dashboards).
     /// @dev Publicly callable; note that meterIDHash is already a hash.
     function isMeterActive(bytes32 meterIDHash) external view returns (bool) {
