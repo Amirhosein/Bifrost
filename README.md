@@ -1,195 +1,141 @@
-# Privacy‑Preserving Tokenized Green Credits (L2 Mint + L1 Anchor)
+# Privacy-Preserving Green Credits on L2 (Arbitrum Sepolia)
 
-This repository contains a deployable engineering prototype for **tokenized green credit issuance** that:
+This repository implements an end-to-end engineering prototype for the public-chain side of the Green Token methodology:
 
-- keeps **meter / site / raw reading data off public chains** (public chains see only minimal issuance fields + hashes),
-- enforces **duplicate prevention** at the smart‑contract level, and
-- supports **Layer‑2 (L2) minting** with an **auditable Layer‑1 (L1) anchor** via authenticated **L2→L1 messaging**.
+- selective-disclosure-oriented credential flow (BBS+ off-chain artifacts),
+- L2 verification and minting on Arbitrum Sepolia,
+- L1 anchor-only audit trail on Ethereum Sepolia via Arbitrum outbox,
+- reproducible local and testnet benchmarking (including repeated runs with average/median/p95).
 
-The codebase is designed to run **fully locally (no funded wallets required)** using Hardhat, including mock cross‑chain components and reproducible gas measurements.
+The project also contains legacy/local demo paths and OP-Stack style anchor contracts for comparison.
 
----
+## What this project does today
 
-## High‑level architecture
+### Core delivered functionality
 
-### Domains and responsibilities
+1. Mints ERC-20 green-credit tokens on L2 after verifier-gated authorization.
+2. Enforces duplicate-prevention at contract level.
+3. Emits L2->L1 anchor messages and supports outbox monitoring/execution.
+4. Runs in both local deterministic mode and live Sepolia/Arbitrum Sepolia mode.
+5. Produces JSON benchmark artifacts suitable for reporting.
 
-**1) Private verification domain (hashes only)**
+### Important implementation status
 
-- `MetReg` — meter registry with GA‑controlled activation/revocation status
-- `DataVer` — reading commitment index + oracle verdicts + VC (credential) hash anchoring
+1. Off-chain BBS+ issuance, presentation generation, and verification are implemented.
+2. Public-chain flow is implemented and benchmarked on real testnets.
+3. Current verifier harness for benchmark comparison is still non-production cryptographic semantics:
+- SNARK track uses mock receipt/verifier semantics.
+- Stylus-native track currently uses digest-approval semantics, not full native BBS+ pairing verification.
 
-This domain is intentionally minimal and stores **only hashes and status flags** so private details do not appear on public networks.
+So this repo is a strong system-level and cost-baseline implementation, while full production cryptographic on-chain verification remains the next milestone.
 
-**2) Public minting domain (L2)**
+## Architecture
 
-- L2 token contracts mint ERC‑20 “green credits” after:
-  - verifying an authorization proof (via a verifier interface), and
-  - enforcing duplicate prevention using a canonical disclosure tuple hash (`dtHash`)
+### Layers and responsibilities
 
-**3) Public audit domain (L1 anchor)**
+1. Private/pre-validation domain (`contracts/private`)
+- `MetReg.sol`: meter registry/status controls.
+- `DataVer.sol`: commitment/verdict/VC-hash indexing.
 
-- L1 anchor contracts store an immutable record of each mint, accepted **only** through authenticated cross‑chain calls.
+2. L2 execution domain (`contracts/l2`)
+- `GTokenL2*.sol`: verifier-gated minting + duplicate prevention + L2->L1 message emission.
+- `GTokenL2BbsSnark*.sol`: BBS-claim model mint path.
 
----
+3. L1 audit domain (`contracts/l1`)
+- `GTokenAnchor.sol`: generic xDomain anchor pattern.
+- `GTokenAnchorArb.sol`: Arbitrum bridge/outbox authenticated anchor pattern.
 
-## What’s implemented
+4. Verifier contracts (`contracts/verifiers`)
+- mock SNARK/stylus verifier contracts for controlled measurement.
+- RISC Zero adapter interface scaffold.
 
-### Core features
+5. Stylus workspace (`stylus/`)
+- native Rust verifier workspace and deploy tooling.
 
-- **ERC‑20 minting** gated by a verifier (`IProofVerifier`).
-- **BBS+ L2 minting path** (`GTokenL2BbsSnark`) with:
-  - disclosed claim model: `reTypeCode`, `qtyKWh`, `readingTimestamp`, `credentialIdHash`, `expiry`,
-  - duplicate prevention by `credentialIdHash`, and
-  - anchor key `claimId = keccak256(credentialIdHash, reTypeCode, qtyKWh, readingTimestamp)`.
-- **Duplicate‑guard** keyed by a canonical Disclosure Tuple (DT) hash.
-- Two L1 anchoring patterns:
-  - **Generic messenger** pattern (OP‑Stack‑style authentication).
-  - **Arbitrum outbox** pattern (Bridge/Outbox + `l2ToL1Sender()` authentication).
-- **Local “mock” cross‑chain environment** so you can demonstrate end‑to‑end behavior without funding wallets.
-- **Reproducible gas report** that separates L2 mint cost from the later L1 anchor execution cost.
+### BBS disclosed claim model used by L2 mint
 
----
+`BbsDisclosedClaims`:
 
-## Directory structure
+- `reTypeCode` (`uint16`)
+- `qtyKWh` (`uint256`)
+- `readingTimestamp` (`uint64`)
+- `credentialIdHash` (`bytes32`)
+- `expiry` (`uint64`)
 
-```
-artifacts/
-cache/
-contracts/
-data/
-dataset/
-docs/
-ECE 910 Final Report.pdf
-foundry-test/
-hardhat.config.ts
-node_modules/
-package-lock.json
-package.json
-README.md
-script/
-scripts/
-test/
-tsconfig.json
-typechain-types/
-foundry.toml
-```
+Duplicate-prevention key:
 
-### Recommended
+- `usedCredential[credentialIdHash]`
 
-Keep these under version control:
+Anchor claim key:
 
-- `contracts/` (all Solidity)
-- `scripts/` (TypeScript scripts used by npm commands)
-- `test/` (Hardhat tests)
-- `docs/` (gas report JSON, diagrams metadata, notes)
-- `dataset/` and/or `data/` (if used by scripts; synthetic only)
-- `hardhat.config.ts`, `package.json`, `package-lock.json`, `tsconfig.json`, `foundry.toml`
+- `claimId = keccak256(credentialIdHash, reTypeCode, qtyKWh, readingTimestamp)`
 
+### Repository map
+
+- `contracts/`: Solidity contracts (private/L2/L1/interfaces/mocks/verifiers)
+- `scripts/`: deployment, flow orchestration, benchmark, outbox utilities
+- `test/`: Hardhat test coverage
+- `stylus/`: Rust Stylus projects and scaffolding
+- `dataset/`: generated VC/presentation artifacts
+- `docs/`: benchmark/outbox/report JSON and LaTeX report
 
 ## Prerequisites
 
-- Node.js
-- npm
+1. Node.js (LTS recommended)
+2. npm
+3. For Stylus native deployment path:
+- Rust + Cargo
+- `cargo-stylus`
 
----
-
-## Quickstart (local, no funds required)
-
-### 1) Install dependencies
+### Install
 
 ```bash
 npm install
 ```
 
-### 2) Clean + run the test suite
+### Quick local validation
 
 ```bash
-npx hardhat clean
+npm run clean
 npm test
 ```
 
-Expected: all tests pass, including private‑side registry/indexing tests, Arbitrum anchor authentication tests, and V2 mint + L1 anchor tests.
-
-### 3) Run the V2 local demo (mint + anchor)
+Optional local demos:
 
 ```bash
 npm run demo:v2
-```
-
-Expected behavior:
-
-- prints holder address and issuance fields (`epochIndex`, `typeCode`, `qtyKWh`, etc.)
-- mints tokens on the local L2 instance
-- confirms the mint is anchored on the local L1 instance
-- attempts a duplicate mint and shows it reverts with `DuplicateDT()`
-
-### 4) Run the Arbitrum anchor demo (mock)
-
-```bash
 npm run demo:arb:mock
-```
-
-Expected behavior:
-
-1) direct call from an EOA reverts (not from bridge/outbox)
-2) outbox call with wrong L2 sender reverts
-3) outbox call with correct L2 sender succeeds and stores anchor info
-4) duplicate anchor attempt reverts
-
-### 5) Generate the local gas report (JSON)
-
-```bash
 npm run gas:v2
 ```
 
-Outputs:
+### Environment configuration
 
-- a console table of measured gas and calldata sizes
-- `docs/gas_report_v2_local.json`
+Create local config:
 
-**Interpretation note:** On real optimistic rollups, the **L2 mint** and the **L1 anchor execution** are **separate transactions**. The gas report therefore distinguishes:
+```bash
+cp .env.example .env
+```
 
-- L2 mint cost excluding later L1 execution
-- modeled L1 execution gas for `recordMint`
-- a “combined local” number used only for synchronous unit‑test convenience
+Minimum required for Arbitrum Sepolia automation:
 
----
+1. `DEPLOYER_PRIVATE_KEY`
+2. `SEPOLIA_RPC_URL`
+3. `ARBITRUM_SEPOLIA_RPC_URL`
+4. `ARBITRUM_L1_BRIDGE`
 
-## How duplicate prevention works
+Common optional variables:
 
-Minting is keyed by a **Disclosure Tuple (DT)** defined by policy:
+1. `ISSUER_PRIVATE_KEY`, `HOLDER_PRIVATE_KEY`
+2. `BENCH_RECIPIENT`
+3. `RUN_SNARK_MOCK`, `RUN_STYLUS_SIM`
+4. `STYLUS_NATIVE_VERIFIER` (use deployed stylus verifier instead of solidity mock)
+5. `BENCH_REPEAT_COUNT` and repeat-path overrides
 
-- `epochIndex` (uint64)
-- `typeCode` (uint16)
-- `qtyKWh` (uint256)
-- `policyNonce` (uint128)
+Reference: [docs/bbs_l2_runbook.md](docs/bbs_l2_runbook.md)
 
-The minting contract computes:
+## Main workflows
 
-- `dtHash = keccak256(abi.encodePacked(epochIndex, typeCode, qtyKWh, policyNonce))`
-
-A mapping `usedDT[dtHash]` is set on the first successful mint and never cleared.
-Any subsequent attempt to mint the same DT reverts with `DuplicateDT()`.
-
-This guard is designed to remain correct even if the proof mechanism changes (ECDSA now, selective disclosure / ZK later).
-
----
-
-## Proof/authorization model (current prototype)
-
-Minting is gated by a verifier interface (`IProofVerifier`).
-
-The current implementation uses `DemoIssuerVerifier` with **ECDSA signature checks** as an engineering placeholder for stronger credential proofs.
-
-Design notes:
-
-- the signed digest binds to the **holder address** (prevents third‑party replay),
-- the digest includes an **opaque hidden commitment** (`bytes32`) which can bind off‑chain evidence without revealing it on‑chain.
-
-### BBS+ tooling (paper-style selective disclosure)
-
-The repo includes off-chain BBS+ scripts using `@mattrglobal/bbs-signatures`:
+### 1) BBS artifact generation (off-chain)
 
 ```bash
 npm run bbs:issue:vc
@@ -202,137 +148,190 @@ Outputs:
 - `dataset/bbs_vc.json`
 - `dataset/bbs_presentation.json`
 
-These outputs can be used to prepare `bbsProof`/claim inputs for `GTokenL2BbsSnark`.
-
-### L2-only mint policy
-
-- Minting is intentionally **L2-only**.
-- L1 contracts in this repo are **anchor-only** and expose no mint entrypoint.
-
----
-
-## L2 → L1 anchoring models
-
-Two anchoring patterns are implemented:
-
-### 1) Generic messenger model (OP‑Stack‑style)
-
-The L1 anchor accepts `recordMint(...)` only when:
-
-- `msg.sender == messenger`, and
-- `messenger.xDomainMessageSender() == allowlistedL2Token`
-
-### 2) Arbitrum outbox model
-
-The Arbitrum‑specific L1 anchor accepts `recordMint(...)` only when:
-
-- `msg.sender == bridge.activeOutbox()`, and
-- `IOutbox(msg.sender).l2ToL1Sender() == allowlistedL2Token`
-
-Mocks are included so this logic is testable locally.
-
----
-
-## Optional testnet deployment (requires funded key)
-
-This repo can be configured for Sepolia + Arbitrum Sepolia deployments.
-
-1) Copy env template:
-
-```bash
-cp .env.example .env
-```
-
-2) Fill in:
-
-- `DEPLOYER_PRIVATE_KEY`
-- `SEPOLIA_RPC_URL`
-- `ARBITRUM_SEPOLIA_RPC_URL`
-- any L1 bridge/outbox addresses required by scripts (from official Arbitrum docs)
-
-3) Automated end-to-end BBS flow (recommended):
+### 2) Full automated Arbitrum Sepolia flow
 
 ```bash
 npm run flow:bbs:arb:auto
 ```
 
-This one command:
+This flow:
 
-- generates BBS+ VC + selective disclosure proof off-chain,
-- deploys L1 anchor + L2 verifier/token contracts,
-- runs verify estimate + mint + transfer on Arbitrum Sepolia,
-- writes receipt-based fee report to `docs/bench_bbs_l2_arb_sepolia_auto.json`.
+1. Builds/validates BBS artifacts off-chain.
+2. Deploys needed L1 and L2 contracts.
+3. Executes verify estimate, mint, transfer on L2.
+4. Emits L2->L1 message metadata.
+5. Writes machine-readable benchmark output.
 
-4) Manual BBS L2 deploy options (if needed):
+Default output:
+
+- `docs/bench_bbs_l2_arb_sepolia_auto.json`
+
+### 3) Deploy native Stylus verifier and use it in flow
+
+Deploy:
 
 ```bash
-# Mock SNARK verifier path (for integration/benchmark demos)
-npm run deploy:l2:bbs:snark:mock
-
-# Stylus-native semantics simulation path (EVM-side benchmark parity)
-npm run deploy:l2:bbs:stylus:sim
-
-# Risc0 adapter path (requires deployed Groth16 verifier + image ID)
-npm run deploy:l2:bbs:risc0
+npm run deploy:stylus:bbs:verifier
 ```
 
-5) Local and testnet benchmarks:
+Output:
+
+- `docs/stylus_bbs_verifier_deploy.json`
+
+Then run automated flow with that verifier:
 
 ```bash
-npm run bench:bbs:local
-npm run bench:bbs:arb
+STYLUS_NATIVE_VERIFIER=0x<deployed_stylus_verifier> npm run flow:bbs:arb:auto
+```
+
+Path labels in outputs:
+
+1. `solidity-snark-mock-arb`
+2. `stylus-native-sim-arb` (default mock stylus verifier)
+3. `stylus-native-arb` (when `STYLUS_NATIVE_VERIFIER` is provided)
+
+### 4) Repeated benchmark (stronger statistics)
+
+```bash
+npm run bench:bbs:arb:repeat
+npm run bench:bbs:arb:repeat:20
+npm run bench:bbs:arb:repeat:50
+```
+
+Output:
+
+- `docs/bench_bbs_l2_arb_sepolia_repeat.json`
+
+Includes per-operation:
+
+1. sample count
+2. average gas
+3. median gas
+4. p95 gas
+5. average fee (wei/ETH)
+
+### 5) Outbox lifecycle monitoring and execution
+
+Check whether messages are executable on L1:
+
+```bash
+npm run check:arb:outbox
+```
+
+Execute confirmed messages:
+
+```bash
+npm run exec:arb:outbox
 ```
 
 Outputs:
 
+- `docs/arb_sepolia_outbox_status.json`
+- `docs/arb_sepolia_outbox_execute.json`
+
+Status model:
+
+1. `UNCONFIRMED`: not yet executable
+2. `CONFIRMED`: executable now
+3. `EXECUTED`: already executed
+
+### 6) Local deterministic BBS benchmark
+
+```bash
+npm run bench:bbs:local
+```
+
+Output:
+
 - `docs/bench_bbs_l2_local.json`
-- `docs/bench_bbs_l2_arb_sepolia.json`
 
-⚠️ Never commit real private keys to git.
+### Script index
 
-If you do **not** have funds, you can still demonstrate correctness using the local mocks (`demo:v2`, `demo:arb:mock`) and the test suite.
+Core quality and build:
 
----
+- `npm test`
+- `npm run build`
+- `npm run clean`
+
+Core BBS flow:
+
+- `npm run flow:bbs:arb:auto`
+- `npm run bench:bbs:arb`
+- `npm run bench:bbs:arb:repeat`
+- `npm run check:arb:outbox`
+- `npm run exec:arb:outbox`
+
+Deploy helpers:
+
+- `npm run deploy:l1:arbitrum`
+- `npm run config:l1:arbitrum`
+- `npm run deploy:l2:bbs:snark:mock`
+- `npm run deploy:l2:bbs:stylus:sim`
+- `npm run deploy:l2:bbs:risc0`
+- `npm run deploy:stylus:bbs:verifier`
+
+Legacy/local demo helpers:
+
+- `npm run demo:v2`
+- `npm run demo:arb:mock`
+- `npm run gas:v2`
+
+### Security and integrity properties currently enforced
+
+1. Duplicate mint prevention at contract state level.
+2. Expiry/freshness checks in mint authorization path.
+3. L1 remains anchor-only (no active L1 mint path).
+4. Arbitrum outbox sender authentication on L1 anchor execution.
+
+### Cost interpretation guidance
+
+1. L2 mint/transfer and L1 anchor execution are separate lifecycle steps.
+2. Repeated benchmarks are more reliable than single-run snapshots.
+3. Testnet fees are engineering indicators, not mainnet commitments.
+4. Current verifier harness costs are not final production-crypto costs.
 
 ## Troubleshooting
 
-### “Network `<name>` doesn’t exist”
+### High RPC request counts on provider dashboard
 
-If you see Hardhat errors like “Network sepolia doesn’t exist”, ensure:
+This is expected during repeated benchmarks. One logical action can trigger many RPC calls:
 
-- your `hardhat.config.ts` defines that network name, and
-- your `.env` has the required RPC and key variables.
+1. `eth_chainId`
+2. `eth_estimateGas`
+3. nonce/fee calls
+4. `eth_sendRawTransaction`
+5. repeated receipt polling
 
-### Tests fail after copying files
+Repeated benchmark loops amplify this substantially.
 
-Run clean:
+### Outbox not executable yet
+
+Expected until Arbitrum confirmation/challenge lifecycle passes. Keep checking status with:
 
 ```bash
-npx hardhat clean
-npm test
+npm run check:arb:outbox
 ```
 
----
+### Bridge address errors
 
-## Scope / ethics note
+If flow fails around bridge/outbox checks, verify `ARBITRUM_L1_BRIDGE` is the correct Sepolia bridge contract address.
 
-This is a **technical prototype**. Tokens produced by this system are **not official RECs** and do not provide regulatory compliance on their own. The design goal is to keep **PII and raw meter readings off public chains**, but real‑world privacy also depends on off‑chain operational practices.
+### Stylus deploy issues
 
----
+1. Ensure `cargo` and `cargo stylus` are installed.
+2. Ensure wallet has Arbitrum Sepolia ETH.
+3. If fee errors occur, tune `STYLUS_MAX_FEE_GWEI`.
 
-## Suggested `.gitignore` (if using git)
+## Documents and reports
 
-```gitignore
-node_modules/
-artifacts/
-cache/
-typechain-types/
-.env
-.DS_Store
-```
+- Runbook: [docs/bbs_l2_runbook.md](docs/bbs_l2_runbook.md)
+- Project report (LaTeX): [docs/report.tex](docs/report.tex)
+- Benchmark outputs: `docs/bench_bbs_l2_*.json`
 
----
+## Next milestone
 
-## License
+To reach paper-faithful production cryptographic path on public chain:
 
-MIT
+1. integrate real on-chain RISC Zero receipt verification or full native Stylus BBS+ verification semantics,
+2. remove digest-approval benchmark semantics from critical path,
+3. rerun repeated benchmarks and update comparative cost report.
