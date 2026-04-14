@@ -1,0 +1,19 @@
+node_modules/
+artifacts/
+cache/
+typechain-types/
+coverage/
+coverage.json
+.env
+.env.*
+dist/
+out/
+*.log
+
+# Foundry
+lib/
+broadcast/
+
+# OS
+.DS_Store
+.DS_Store

@@ -1,0 +1,11 @@
+{
+  "readings": [
+    {
+      "meterHash": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+      "epochIndex": 202540,
+      "typeCode": 0,
+      "quantityKWh": 100,
+      "policyNonce": 0
+    }
+  ]
+}
