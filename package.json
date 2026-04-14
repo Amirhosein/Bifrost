@@ -12,23 +12,40 @@
     "demo:v2": "hardhat run scripts/demo_v2_local.ts",
     "demo:arb:mock": "hardhat run scripts/demo_arbitrum_l1_mock.ts",
     "gas:v2": "hardhat run scripts/gas_report_v2_local.ts",
+    "bbs:issue:vc": "hardhat run scripts/bbs_issue_vc.ts",
+    "bbs:create:presentation": "hardhat run scripts/bbs_create_presentation.ts",
+    "bbs:verify:presentation": "hardhat run scripts/bbs_verify_presentation.ts",
+    "bench:bbs:local": "hardhat run scripts/benchmark_bbs_local.ts",
+    "bench:bbs:arb": "hardhat run --network arbitrumSepolia scripts/benchmark_bbs_arbitrum_sepolia.ts",
+    "bench:bbs:arb:repeat": "hardhat run scripts/benchmark_bbs_arbitrum_sepolia_repeat.ts",
+    "flow:bbs:arb:auto": "hardhat run scripts/flow_bbs_arbitrum_sepolia_auto.ts",
+    "check:arb:outbox": "hardhat run scripts/check_arbitrum_outbox_status.ts",
+    "exec:arb:outbox": "hardhat run scripts/execute_arbitrum_outbox.ts",
     "demo:l2:arbitrum:mint": "hardhat run --network arbitrumSepolia scripts/demo_l2_arbitrum_mint.ts",
     "check:l1:arbitrum:anchor": "hardhat run --network sepolia scripts/check_l1_arbitrum_anchor.ts",
-
     "deploy:l1:opstack": "hardhat run --network sepolia scripts/deploy_l1_anchor_opstack.ts",
     "config:l1:opstack": "hardhat run --network sepolia scripts/configure_l1_anchor_opstack.ts",
     "deploy:l2:opstack": "hardhat run --network optimismSepolia scripts/deploy_l2_opstack.ts",
-
     "deploy:l1:arbitrum": "hardhat run --network sepolia scripts/deploy_l1_anchor_arbitrum.ts",
     "config:l1:arbitrum": "hardhat run --network sepolia scripts/configure_l1_anchor_arbitrum.ts",
-    "deploy:l2:arbitrum": "hardhat run --network arbitrumSepolia scripts/deploy_l2_arbitrum.ts"
+    "deploy:l2:arbitrum": "hardhat run --network arbitrumSepolia scripts/deploy_l2_arbitrum.ts",
+    "deploy:l2:bbs:snark:mock": "hardhat run --network arbitrumSepolia scripts/deploy_l2_bbs_snark_mock.ts",
+    "deploy:l2:bbs:stylus:sim": "hardhat run --network arbitrumSepolia scripts/deploy_l2_bbs_stylus_sim.ts",
+    "deploy:l2:bbs:risc0": "hardhat run --network arbitrumSepolia scripts/deploy_l2_bbs_risc0.ts",
+    "deploy:stylus:bbs:verifier": "ts-node scripts/deploy_stylus_bbs_verifier.ts",
+    "bench:bbs:arb:repeat:20": "BENCH_REPEAT_COUNT=20 npm run bench:bbs:arb:repeat",
+    "bench:bbs:arb:repeat:50": "BENCH_REPEAT_COUNT=50 npm run bench:bbs:arb:repeat"
   },
   "devDependencies": {
+    "@arbitrum/sdk": "^4.0.4",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@openzeppelin/contracts": "^5.0.2",
     "dotenv": "^16.4.5",
     "hardhat": "^2.22.15",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@mattrglobal/bbs-signatures": "^2.0.0"
   }
 }
