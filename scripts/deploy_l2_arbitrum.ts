@@ -15,14 +15,16 @@ async function main() {
 
   const [deployer] = await ethers.getSigners();
   const registryAdmin = process.env.REGISTRY_ADMIN ?? deployer.address;
+  const issuer = process.env.ISSUER_ADDR ?? deployer.address;
 
   console.log("Network:", (await ethers.provider.getNetwork()).name);
   console.log("Deployer:", deployer.address);
   console.log("RegistryAdmin:", registryAdmin);
+  console.log("Issuer:", issuer);
 
   // Deploy demo verifier (ECDSA-based, used for testnet demos)
   const Verifier = await ethers.getContractFactory("DemoIssuerVerifier");
-  const verifier = await Verifier.deploy();
+  const verifier = await Verifier.deploy(issuer);
   await verifier.waitForDeployment();
   const verifierAddr = await verifier.getAddress();
   console.log("DemoIssuerVerifier:", verifierAddr);

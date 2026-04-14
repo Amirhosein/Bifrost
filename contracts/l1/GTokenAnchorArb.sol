@@ -11,7 +11,10 @@ import {IOutbox} from "../arbitrum/IOutbox.sol";
  * @notice Records an L2 mint on L1 when the call is executed via Arbitrum's active Outbox.
  *
  * Auth rules (aligned to the Hardhat tests in this repo):
- *  - msg.sender MUST equal bridge.activeOutbox()               -> NotFromBridge()
+ *  - msg.sender MUST be either:
+ *      (a) bridge.activeOutbox() (legacy/mock style), OR
+ *      (b) bridge address itself while activeOutbox() is set (Nitro bridge-call style)
+ *    otherwise -> NotFromBridge()
  *  - outbox.l2ToL1Sender() MUST equal configured l2GToken      -> NotFromAuthorizedL2Sender()
  *  - dtHash can only be anchored once                          -> AlreadyAnchored()
  */
@@ -85,7 +88,9 @@ contract GTokenAnchorArb is AccessControl {
         uint256 qtyKWh
     ) external {
         address outbox = IBridge(bridge).activeOutbox();
-        if (msg.sender != outbox) revert NotFromBridge();
+        bool viaOutbox = (msg.sender == outbox);
+        bool viaBridge = (msg.sender == bridge && outbox != address(0));
+        if (!(viaOutbox || viaBridge)) revert NotFromBridge();
 
         // Must be configured and must come from authorized L2 sender.
         if (!configured || IOutbox(outbox).l2ToL1Sender() != l2GToken) {
