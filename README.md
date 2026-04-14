@@ -38,6 +38,10 @@ This domain is intentionally minimal and stores **only hashes and status flags**
 ### Core features
 
 - **ERC‑20 minting** gated by a verifier (`IProofVerifier`).
+- **BBS+ L2 minting path** (`GTokenL2BbsSnark`) with:
+  - disclosed claim model: `reTypeCode`, `qtyKWh`, `readingTimestamp`, `credentialIdHash`, `expiry`,
+  - duplicate prevention by `credentialIdHash`, and
+  - anchor key `claimId = keccak256(credentialIdHash, reTypeCode, qtyKWh, readingTimestamp)`.
 - **Duplicate‑guard** keyed by a canonical Disclosure Tuple (DT) hash.
 - Two L1 anchoring patterns:
   - **Generic messenger** pattern (OP‑Stack‑style authentication).
@@ -183,6 +187,28 @@ Design notes:
 - the signed digest binds to the **holder address** (prevents third‑party replay),
 - the digest includes an **opaque hidden commitment** (`bytes32`) which can bind off‑chain evidence without revealing it on‑chain.
 
+### BBS+ tooling (paper-style selective disclosure)
+
+The repo includes off-chain BBS+ scripts using `@mattrglobal/bbs-signatures`:
+
+```bash
+npm run bbs:issue:vc
+npm run bbs:create:presentation
+npm run bbs:verify:presentation
+```
+
+Outputs:
+
+- `dataset/bbs_vc.json`
+- `dataset/bbs_presentation.json`
+
+These outputs can be used to prepare `bbsProof`/claim inputs for `GTokenL2BbsSnark`.
+
+### L2-only mint policy
+
+- Minting is intentionally **L2-only**.
+- L1 contracts in this repo are **anchor-only** and expose no mint entrypoint.
+
 ---
 
 ## L2 → L1 anchoring models
@@ -223,6 +249,44 @@ cp .env.example .env
 - `SEPOLIA_RPC_URL`
 - `ARBITRUM_SEPOLIA_RPC_URL`
 - any L1 bridge/outbox addresses required by scripts (from official Arbitrum docs)
+
+3) Automated end-to-end BBS flow (recommended):
+
+```bash
+npm run flow:bbs:arb:auto
+```
+
+This one command:
+
+- generates BBS+ VC + selective disclosure proof off-chain,
+- deploys L1 anchor + L2 verifier/token contracts,
+- runs verify estimate + mint + transfer on Arbitrum Sepolia,
+- writes receipt-based fee report to `docs/bench_bbs_l2_arb_sepolia_auto.json`.
+
+4) Manual BBS L2 deploy options (if needed):
+
+```bash
+# Mock SNARK verifier path (for integration/benchmark demos)
+npm run deploy:l2:bbs:snark:mock
+
+# Stylus-native semantics simulation path (EVM-side benchmark parity)
+npm run deploy:l2:bbs:stylus:sim
+
+# Risc0 adapter path (requires deployed Groth16 verifier + image ID)
+npm run deploy:l2:bbs:risc0
+```
+
+5) Local and testnet benchmarks:
+
+```bash
+npm run bench:bbs:local
+npm run bench:bbs:arb
+```
+
+Outputs:
+
+- `docs/bench_bbs_l2_local.json`
+- `docs/bench_bbs_l2_arb_sepolia.json`
 
 ⚠️ Never commit real private keys to git.
 

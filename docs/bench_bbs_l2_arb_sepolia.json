@@ -1,0 +1,13 @@
+{
+  "generatedAt": null,
+  "l2ChainId": "421614",
+  "claims": {
+    "reTypeCode": 1,
+    "qtyKWh": "100",
+    "readingTimestamp": 1740873600,
+    "credentialIdHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "expiry": "0"
+  },
+  "rows": []
+}
+

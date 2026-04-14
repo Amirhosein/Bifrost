@@ -1,0 +1,206 @@
+{
+  "generatedAt": "2026-04-13T22:40:19.380Z",
+  "runMode": "arbitrum-sepolia-bbs-auto",
+  "networks": {
+    "l1": {
+      "chainId": "11155111",
+      "rpc": "https://eth-sepolia.g.alchemy.com/v2/***REMOVED***"
+    },
+    "l2": {
+      "chainId": "421614",
+      "rpc": "https://arb-sepolia.g.alchemy.com/v2/***REMOVED***"
+    }
+  },
+  "actors": {
+    "l1Deployer": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+    "l2Deployer": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+    "issuer": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+    "holder": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+    "recipient": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+    "registryAdmin": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4"
+  },
+  "claims": {
+    "reTypeCode": 1,
+    "qtyKWh": "100",
+    "readingTimestamp": 1740873600,
+    "credentialIdHash": "0xdacc2b386434456e9a81baa0e6f0c2f5951c596033a0f4de85c6f9855c0a95fe",
+    "expiry": "1776123565",
+    "reTypeText": "Solar",
+    "qtyKWhText": "100",
+    "timestampIso": "2025-02-15T12:00:00Z"
+  },
+  "artifacts": {
+    "vcPath": "/Users/amirhossein/Documents/Documents - Amirhossein’s MacBook Air/Alberta/Research/GToken/ECE910CAPSTONE/dataset/bbs_vc.testnet.auto.json",
+    "presentationPath": "/Users/amirhossein/Documents/Documents - Amirhossein’s MacBook Air/Alberta/Research/GToken/ECE910CAPSTONE/dataset/bbs_presentation.testnet.auto.json"
+  },
+  "deployments": [
+    {
+      "path": "solidity-snark-mock-arb",
+      "l1Anchor": "0x574B34C7ee3EC6797aF11bB73D7CB5716cb12D8d",
+      "l2Verifier": "0x67bF216116b4F37fD7e00eA29C3D4eb8C99f0273",
+      "l2Token": "0xaFD631efCeaFf37D7862Bd94DdcF4b5198640BED",
+      "claimId": "0x0246061422c9987b95cbdf2ad996bff4be9ff6f662da49c8a2bef75177ee23ff",
+      "l2ToL1MsgNum": "116045"
+    },
+    {
+      "path": "stylus-native-arb",
+      "l1Anchor": "0x7c0d6bedF25bb89e0E9Cc4BaA14A3AAD276D9587",
+      "l2Verifier": "0x2088EF98a19b4DBf655866098ee86FD2dA3FE1d1",
+      "l2Token": "0x9816C67082EC28E38659Ce7e30Ae6E5A477F2e55",
+      "claimId": "0x0246061422c9987b95cbdf2ad996bff4be9ff6f662da49c8a2bef75177ee23ff",
+      "l2ToL1MsgNum": "116046"
+    }
+  ],
+  "rows": [
+    {
+      "path": "solidity-snark-mock-arb",
+      "operation": "deploy:GTokenAnchorArb",
+      "chainId": "11155111",
+      "txHash": "0x7e6a923ca71b9548b07d69ddd83e8a54653bf3713ae0aa4bbffa2949757f7beb",
+      "gasUsed": "667709",
+      "effectiveGasPrice": "7084492",
+      "feeWei": "4730379068828",
+      "notes": "Deployment cost"
+    },
+    {
+      "path": "solidity-snark-mock-arb",
+      "operation": "deploy:MockBbsSnarkVerifier",
+      "chainId": "421614",
+      "txHash": "0x68601c53f969a43ba41a81ece3dd29c6f005cb4c48d7b2aee6e8c6001ef767cb",
+      "gasUsed": "580051",
+      "effectiveGasPrice": "20014000",
+      "feeWei": "11609140714000",
+      "notes": "Deployment cost"
+    },
+    {
+      "path": "solidity-snark-mock-arb",
+      "operation": "deploy:GTokenL2BbsSnarkArb",
+      "chainId": "421614",
+      "txHash": "0x4fee05942a956c332ffdb53167a89c793fa63e258326ff9eb7fe0b39d427e696",
+      "gasUsed": "1229376",
+      "effectiveGasPrice": "20064000",
+      "feeWei": "24666200064000",
+      "notes": "Deployment cost"
+    },
+    {
+      "path": "solidity-snark-mock-arb",
+      "operation": "anchor.setConfig",
+      "chainId": "11155111",
+      "txHash": "0x22045753908021b3b99a85a969602fc1da59408853794560174f3476fa144188",
+      "gasUsed": "46356",
+      "effectiveGasPrice": "7376519",
+      "feeWei": "341945914764",
+      "notes": "Authorize L2 sender on L1 anchor"
+    },
+    {
+      "path": "solidity-snark-mock-arb",
+      "operation": "verifyForMint (estimateGas)",
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "40557",
+      "effectiveGasPrice": "0",
+      "feeWei": "0",
+      "notes": "Mock SNARK verifier estimate"
+    },
+    {
+      "path": "solidity-snark-mock-arb",
+      "operation": "mintWithBbsProof",
+      "chainId": "421614",
+      "txHash": "0xc6b198fad6c3559afebb852819fe1339b51016329d9dd7b8250e6d20abba95ba",
+      "gasUsed": "181609",
+      "effectiveGasPrice": "20010000",
+      "feeWei": "3633996090000",
+      "notes": "L2 verify + mint + sendTxToL1"
+    },
+    {
+      "path": "solidity-snark-mock-arb",
+      "operation": "transfer",
+      "chainId": "421614",
+      "txHash": "0x0a0d8cfb7f359c84fd6a694e968606f1ad389b17bf90a83c37a0f9c836eada68",
+      "gasUsed": "26801",
+      "effectiveGasPrice": "20032000",
+      "feeWei": "536877632000",
+      "notes": "Post-mint transfer benchmark"
+    },
+    {
+      "path": "stylus-native-arb",
+      "operation": "deploy:GTokenAnchorArb",
+      "chainId": "11155111",
+      "txHash": "0x6073a92732fb280060da95f0c28213af3ac52f01eb3a78d70b987388e84b2c84",
+      "gasUsed": "667709",
+      "effectiveGasPrice": "7356159",
+      "feeWei": "4911773569731",
+      "notes": "Deployment cost"
+    },
+    {
+      "path": "stylus-native-arb",
+      "operation": "use:StylusNativeVerifier",
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "0",
+      "effectiveGasPrice": "0",
+      "feeWei": "0",
+      "notes": "Using deployed Stylus verifier at 0x2088EF98a19b4DBf655866098ee86FD2dA3FE1d1"
+    },
+    {
+      "path": "stylus-native-arb",
+      "operation": "deploy:GTokenL2BbsSnarkArb",
+      "chainId": "421614",
+      "txHash": "0x20bd498fa711238ce8fb5aeb982e6e9950887faf62183f4495d3021ceca2384a",
+      "gasUsed": "1229460",
+      "effectiveGasPrice": "20000000",
+      "feeWei": "24589200000000",
+      "notes": "Deployment cost"
+    },
+    {
+      "path": "stylus-native-arb",
+      "operation": "anchor.setConfig",
+      "chainId": "11155111",
+      "txHash": "0x79f3a90e72ea1af99e54a718dff62eb97c718de72cbc433e8b0d8ec489a0cc88",
+      "gasUsed": "46356",
+      "effectiveGasPrice": "7573237",
+      "feeWei": "351064974372",
+      "notes": "Authorize L2 sender on L1 anchor"
+    },
+    {
+      "path": "stylus-native-arb",
+      "operation": "setDigestApproval",
+      "chainId": "421614",
+      "txHash": "0xf0e64c76d18fc4907577a08deedfc613e5c9340faab210d59e54b6e0d4bf9828",
+      "gasUsed": "78649",
+      "effectiveGasPrice": "20024000",
+      "feeWei": "1574867576000",
+      "notes": "Stylus native simulation approval"
+    },
+    {
+      "path": "stylus-native-arb",
+      "operation": "verifyForMint (estimateGas)",
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "68252",
+      "effectiveGasPrice": "0",
+      "feeWei": "0",
+      "notes": "Stylus native simulation verifier estimate"
+    },
+    {
+      "path": "stylus-native-arb",
+      "operation": "mintWithBbsProof",
+      "chainId": "421614",
+      "txHash": "0x42292d4b175869e466922e28186528d09560143eacb415b1aeb8ac6069134be7",
+      "gasUsed": "199407",
+      "effectiveGasPrice": "20000000",
+      "feeWei": "3988140000000",
+      "notes": "L2 verify + mint + sendTxToL1"
+    },
+    {
+      "path": "stylus-native-arb",
+      "operation": "transfer",
+      "chainId": "421614",
+      "txHash": "0xb7f5b58ff2de6b735f3f1967fe03d90a29dcccf95c0a9b075308b19738685a76",
+      "gasUsed": "26801",
+      "effectiveGasPrice": "20020000",
+      "feeWei": "536556020000",
+      "notes": "Post-mint transfer benchmark"
+    }
+  ]
+}

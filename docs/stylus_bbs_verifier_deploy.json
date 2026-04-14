@@ -1,0 +1,8 @@
+{
+  "generatedAt": "2026-04-13T22:39:14.593Z",
+  "network": "arbitrum-sepolia",
+  "rpc": "https://arb-sepolia.g.alchemy.com/v2/***REMOVED***",
+  "deployer": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+  "owner": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+  "verifier": "0x2088EF98a19b4DBf655866098ee86FD2dA3FE1d1"
+}
