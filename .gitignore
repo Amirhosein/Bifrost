@@ -1,19 +1,61 @@
+# Node / Hardhat
 node_modules/
 artifacts/
 cache/
 typechain-types/
 coverage/
 coverage.json
-.env
-.env.*
+.nyc_output/
 dist/
 out/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
 
 # Foundry
 lib/
 broadcast/
 
-# OS
+# Rust / Stylus
+target/
+**/target/
+
+# Python virtual envs
+.venv/
+.venv_pdf/
+venv/
+ENV/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.iml
+
+# OS / temporary
 .DS_Store
-.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# LaTeX build outputs
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
