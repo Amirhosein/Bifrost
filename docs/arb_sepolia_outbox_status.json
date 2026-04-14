@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-04-04T21:20:23.859Z",
+  "l2TxHashes": [
+    "0x03eccc93309078689c0d4ad06e2c09e7658125a562c3105ab79d52e9c36d9edf",
+    "0x7f4a758e6c2e4458c97cd61b089993a81fb0303f86c9bbcdf84eb8dd0c16fbbe"
+  ],
+  "rows": [
+    {
+      "l2TxHash": "0x03eccc93309078689c0d4ad06e2c09e7658125a562c3105ab79d52e9c36d9edf",
+      "messageIndex": 0,
+      "statusCode": 2,
+      "status": "EXECUTED",
+      "executableNow": false,
+      "executed": true,
+      "firstExecutableL1Block": null
+    },
+    {
+      "l2TxHash": "0x7f4a758e6c2e4458c97cd61b089993a81fb0303f86c9bbcdf84eb8dd0c16fbbe",
+      "messageIndex": 0,
+      "statusCode": 2,
+      "status": "EXECUTED",
+      "executableNow": false,
+      "executed": true,
+      "firstExecutableL1Block": null
+    }
+  ]
+}

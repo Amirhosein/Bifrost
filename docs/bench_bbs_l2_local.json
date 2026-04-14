@@ -1,0 +1,73 @@
+{
+  "generatedAt": "2026-03-24T22:08:35.954Z",
+  "network": "hardhat",
+  "claims": {
+    "reTypeCode": 1,
+    "qtyKWh": "100",
+    "readingTimestamp": 1740873600,
+    "credentialIdHash": "0x73d059871f13e86b42b107f7eee312645202fe855a4e1dfe56f652b06ca28d78"
+  },
+  "rows": [
+    {
+      "path": "solidity-snark",
+      "operation": "verifyForMint (estimateGas)",
+      "gasUsed": "32953",
+      "notes": "Mock SNARK verifier estimate"
+    },
+    {
+      "path": "solidity-snark",
+      "operation": "mintWithBbsProof (no relay)",
+      "gasUsed": "119328",
+      "calldataBytes": 420,
+      "notes": "L2 mint only; messenger is noop"
+    },
+    {
+      "path": "solidity-snark",
+      "operation": "transfer",
+      "gasUsed": "51501",
+      "calldataBytes": 68,
+      "notes": "Post-mint transfer"
+    },
+    {
+      "path": "stylus-native-sim",
+      "operation": "setDigestApproval",
+      "gasUsed": "47823",
+      "calldataBytes": 68,
+      "notes": "Simulates native verifier allowing proof digest"
+    },
+    {
+      "path": "stylus-native-sim",
+      "operation": "verifyForMint (estimateGas)",
+      "gasUsed": "27740",
+      "notes": "Simulated Stylus verifier estimate"
+    },
+    {
+      "path": "stylus-native-sim",
+      "operation": "mintWithBbsProof (no relay)",
+      "gasUsed": "114106",
+      "calldataBytes": 324,
+      "notes": "L2 mint only; messenger is noop"
+    },
+    {
+      "path": "stylus-native-sim",
+      "operation": "transfer",
+      "gasUsed": "51501",
+      "calldataBytes": 68,
+      "notes": "Post-mint transfer"
+    },
+    {
+      "path": "common",
+      "operation": "anchor.setConfig",
+      "gasUsed": "49065",
+      "calldataBytes": 68,
+      "notes": "One-time config"
+    },
+    {
+      "path": "common",
+      "operation": "L1 relay: messenger.sendMessage -> recordMint",
+      "gasUsed": "157830",
+      "calldataBytes": 388,
+      "notes": "Models asynchronous L1 execution cost"
+    }
+  ]
+}

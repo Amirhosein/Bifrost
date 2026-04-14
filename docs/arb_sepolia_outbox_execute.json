@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-04-04T21:20:01.700Z",
+  "shouldExecute": true,
+  "l1Executor": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+  "l2TxHashes": [
+    "0x03eccc93309078689c0d4ad06e2c09e7658125a562c3105ab79d52e9c36d9edf",
+    "0x7f4a758e6c2e4458c97cd61b089993a81fb0303f86c9bbcdf84eb8dd0c16fbbe"
+  ],
+  "rows": [
+    {
+      "l2TxHash": "0x03eccc93309078689c0d4ad06e2c09e7658125a562c3105ab79d52e9c36d9edf",
+      "messageIndex": 0,
+      "statusCode": 2,
+      "status": "EXECUTED",
+      "action": "SKIP_EXECUTED"
+    },
+    {
+      "l2TxHash": "0x7f4a758e6c2e4458c97cd61b089993a81fb0303f86c9bbcdf84eb8dd0c16fbbe",
+      "messageIndex": 0,
+      "statusCode": 1,
+      "status": "CONFIRMED",
+      "action": "EXECUTED",
+      "l1TxHash": "0x0a2112d657ebf77ba3a09df85ce4aae249704d8d830597f73d21e7cc67a4ed28",
+      "l1GasUsed": "215057",
+      "l1GasPriceWei": "0",
+      "l1FeeWei": "0"
+    }
+  ]
+}

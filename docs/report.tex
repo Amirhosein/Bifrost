@@ -1,0 +1,602 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{parskip}
+
+\definecolor{gtblue}{HTML}{1F4E79}
+\definecolor{gtgray}{HTML}{4F5B66}
+\definecolor{gtlight}{HTML}{EFF4F8}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=gtblue,
+  urlcolor=gtblue,
+  citecolor=gtblue,
+  pdftitle={Implementation Report: Public-Chain Layer of the Green Token Methodology},
+  pdfauthor={Amirhossein Iravanimanesh and Majid Khabbazian}
+}
+
+\titleformat{\section}{\Large\bfseries\color{gtblue}}{\thesection}{0.75em}{}
+\titleformat{\subsection}{\large\bfseries\color{gtblue}}{\thesubsection}{0.75em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{gtgray}}{\thesubsubsection}{0.75em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.5em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.35em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textit{Green Token L2 Implementation Report}}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14pt}
+
+\setlist[itemize]{leftmargin=1.4em}
+\setlist[enumerate]{leftmargin=1.5em}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.18}
+\sisetup{group-separator={,},group-minimum-digits=4}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\begin{document}
+\pagenumbering{gobble}
+
+\begin{titlepage}
+  \centering
+  \vspace*{2.0cm}
+
+  {\Large\bfseries\color{gtblue}Implementation Report\par}
+  \vspace{0.35cm}
+  {\LARGE\bfseries Public-Chain Layer of the Green Token Methodology\par}
+  \vspace{0.25cm}
+  {\large L2 BBS+ Verification and Minting on Arbitrum Sepolia\par}
+
+  \vspace{1.5cm}
+  {\large Prepared by\par}
+  \vspace{0.4cm}
+  \begin{tabular}{c}
+    \textbf{Amirhossein Iravanimanesh}\\
+    \href{mailto:airavanimanesh@ualberta.ca}{airavanimanesh@ualberta.ca}
+  \end{tabular}
+
+  \vspace{0.5cm}
+  {\large and\par}
+  \vspace{0.5cm}
+  \begin{tabular}{c}
+    \textbf{Majid Khabbazian}\\
+    \href{mailto:mkhabbaz@ualberta.ca}{mkhabbaz@ualberta.ca}
+  \end{tabular}
+
+  \vfill
+  {\large November 2025\par}
+\end{titlepage}
+\clearpage
+\pagenumbering{arabic}
+
+\begin{abstract}
+This report documents the implementation of the public-chain execution layer proposed in the Green Token paper (\texttt{GreenCreditWTSC\_25}). The engineering objective was to preserve the paper's two central properties---privacy-preserving eligibility verification and prevention of duplicate issuance---while moving the operationally expensive parts of the issuance flow to Layer 2. The resulting architecture verifies claims and mints tokens on Arbitrum Sepolia, while Ethereum Sepolia is used only as a durable audit anchor.
+
+Two L2 verification approaches were implemented and benchmarked: a Solidity-based SNARK-style path and a Stylus-oriented semantics path. In addition to local deterministic measurement, the implementation was exercised on live Arbitrum Sepolia and Ethereum Sepolia with automated deployment, runtime execution, and outbox tracking. The empirical results show that the L2-first design is practical, that both verification paths are operationally viable, and that repeated measurements provide a materially more reliable picture than any single benchmark snapshot.
+
+The current system should be understood as a strong engineering baseline rather than a final production verifier. The benchmark harness uses mock or simulated verifier contracts to preserve reproducibility and isolate execution-path differences, while future work will integrate production-grade cryptographic verification. Even with that limitation, the implementation demonstrates the full intended lifecycle: selective-disclosure-aware verification, duplicate-safe minting, and authenticated L2-to-L1 audit anchoring.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+
+The Green Token methodology aims to issue renewable-energy credits in a way that preserves public accountability without forcing disclosure of raw private data. In practical terms, the blockchain layer must solve three requirements simultaneously:
+
+\begin{enumerate}
+  \item prove that a claimant is eligible to mint,
+  \item prevent multiple mints from the same credential or claim,
+  \item expose a public record that can be independently audited.
+\end{enumerate}
+
+The core difficulty is that these requirements pull in different directions. Public blockchains are attractive for transparency and verifiability, but direct on-chain cryptographic verification on Layer 1 can be expensive, especially when proofs, verification logic, and repetitive issuance events are involved. As a result, the design implemented here adopts an \emph{L2-first, L1-anchor} architecture: Arbitrum Sepolia performs verification and minting, while Ethereum Sepolia stores only an authenticated audit signal.
+
+This report is written as an implementation companion to the Green Token paper, not as a restatement of the paper itself. Its purpose is to explain what was built, why particular engineering choices were made, how the benchmark methodology was structured, and what the experimental results imply for the feasibility of a production-grade system.
+
+\subsection{Scope of this report}
+The report covers the public-chain layer only. It focuses on on-chain contract responsibilities, off-chain proof preparation, deployment automation, benchmark methodology, and end-to-end validation on Arbitrum Sepolia and Ethereum Sepolia. It does \textbf{not} claim that the full production cryptographic verifier has already been integrated on-chain; rather, it documents the system that was actually implemented and measured.
+
+\subsection{Primary contributions of the implementation}
+From an engineering perspective, the work delivers four practical outcomes:
+
+\begin{itemize}
+  \item an L2-based minting pipeline that preserves the paper's privacy and anti-duplication intent,
+  \item two alternative L2 verifier paths for empirical comparison,
+  \item a reproducible automated flow for deployment, minting, transfer, and benchmark collection,
+  \item an authenticated L2-to-L1 anchoring path with outbox execution tracking.
+\end{itemize}
+
+\section{System Objectives and Architectural Model}
+
+\subsection{Functional objectives}
+The implemented system was guided by the following functional objectives:
+
+\begin{itemize}
+  \item \textbf{Privacy-aware eligibility:} only the minimum information required for mint authorization should be revealed publicly.
+  \item \textbf{Duplicate prevention:} the same credential should not be reusable for repeated minting.
+  \item \textbf{Public verifiability:} the issuance event should leave an auditable trail on a public chain.
+  \item \textbf{Operational affordability:} recurring issuance should occur on a lower-cost execution layer.
+\end{itemize}
+
+These objectives are consistent with the underlying logic of the Green Token paper, but the implementation reframes them in deployment terms. Rather than treating the blockchain as a single monolithic layer, the system separates \emph{execution} from \emph{anchoring}.
+
+\subsection{Layer split and trust boundary}
+The architectural split adopted in this work is straightforward:
+
+\begin{itemize}
+  \item \textbf{L2 (Arbitrum Sepolia):} verify the disclosed claim, enforce duplicate-prevention checks, mint the token, and emit the authenticated message to L1.
+  \item \textbf{L1 (Ethereum Sepolia):} accept and record the L2-authenticated anchor event after the outbox execution step.
+\end{itemize}
+
+This separation is important for both cost and clarity. It ensures that the user-facing issuance flow is executed where it is cheapest, while L1 remains the highest-integrity reference layer for audit purposes. It also removes ambiguity around where mint authorization truly occurs: the mint is finalized on L2, not on L1.
+
+\subsection{Reader's glossary}
+For completeness, the following terms are used in the report:
+
+\begin{itemize}
+  \item \textbf{BBS+ selective disclosure:} a credential proof system that permits revealing only selected fields from a signed credential.
+  \item \textbf{SNARK path:} an approach where heavy cryptographic work is performed off-chain and represented on-chain by succinct proof verification.
+  \item \textbf{Stylus path:} an approach aligned with Arbitrum's Rust/WASM execution environment, useful for custom verification logic.
+  \item \textbf{Outbox execution:} the delayed L2-to-L1 message-finalization process required before an Arbitrum L2 message is actually executed on L1.
+\end{itemize}
+
+\subsection{Component responsibilities}
+Table~\ref{tab:components} summarizes the responsibilities of the major components used in the implementation.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Component responsibilities in the implemented architecture.}
+\label{tab:components}
+\begin{tabularx}{\textwidth}{>{\bfseries}l l Y Y}
+\toprule
+Component & Layer & Primary responsibility & Security role \\
+\midrule
+Verifier contract & L2 & Check proof-related authorization conditions for minting & Ensures only valid disclosed claims can proceed \\
+Mint contract & L2 & Enforce issuance policy, prevent duplicates, mint token, emit anchor message & Final authorization point for token creation \\
+Anchor contract & L1 & Record authenticated evidence that L2 minting occurred & Provides durable public audit trail without exposing an L1 mint path \\
+Off-chain proof pipeline & Off-chain & Issue VC, generate BBS+ proof, verify proof before submission & Prepares privacy-preserving input for on-chain flow \\
+Outbox executor & L1/L2 bridge process & Finalize delayed L2-to-L1 message execution & Preserves authenticated cross-layer anchoring semantics \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Design Decisions and Rationale}
+
+\subsection{Verification on L2}
+Verification was intentionally placed on Arbitrum Sepolia because it is one of the most cost-sensitive parts of the system. Even when some cryptographic work is performed off-chain, the on-chain verifier still consumes gas through calldata handling, policy checks, and proof-related logic. Performing those steps on L1 would preserve public verifiability, but it would do so at a cost level that is unattractive for repeated issuance. By moving verification to L2, the implementation keeps the public execution model while improving the economics of the recurring path.
+
+\subsection{Minting on L2}
+Minting was also kept on L2, rather than verifying on one layer and minting on another. This is an important simplification. Verification and minting form a single logical authorization decision; splitting them across layers would complicate reasoning about state consistency, user experience, and failure handling. In the implemented design, the same execution layer that accepts the claim is also the layer that finalizes token creation.
+
+\subsection{L1 as an anchor-only layer}
+The L1 contract deliberately exposes no active mint functionality. This design choice narrows the attack surface and prevents architectural drift. If L1 offered even a secondary mint path, it could become a bypass mechanism around L2 policy checks or duplicate-prevention logic. By constraining L1 to authenticated anchoring only, the implementation preserves a clean separation of concerns: L2 executes, L1 records.
+
+\subsection{Evaluating two L2 verifier styles}
+Two verifier approaches were implemented because they represent meaningfully different engineering directions:
+
+\begin{enumerate}
+  \item \textbf{Solidity SNARK path:} fits the conventional EVM deployment model and is conceptually aligned with succinct-proof verification.
+  \item \textbf{Stylus semantics path:} explores the Arbitrum-native execution style and is potentially better suited to custom verification logic over time.
+\end{enumerate}
+
+Testing both approaches was important because design intuition alone is not enough. The project needed empirical evidence about gas usage, runtime behavior, and practical deployability in order to support architectural conclusions.
+
+\section{Implementation Details}
+
+\subsection{Disclosed claim model}
+The disclosed claim model used by the L2 mint authorization path is shown below:
+
+\begin{verbatim}
+BbsDisclosedClaims {
+  uint16 reTypeCode;
+  uint256 qtyKWh;
+  uint64 readingTimestamp;
+  bytes32 credentialIdHash;
+  uint64 expiry;
+}
+\end{verbatim}
+
+This structure reflects a deliberate minimum-disclosure policy. The contract receives only the fields required to evaluate eligibility, quantity, freshness, and replay resistance. The credential itself is not revealed in full; rather, the system relies on selective disclosure and a stable identifier binding.
+
+\subsection{Duplicate-prevention and claim binding}
+Two identifiers are central to correctness:
+
+\begin{align*}
+\texttt{usedCredential[credentialIdHash]} 
+\end{align*}
+
+which enforces one-time use of a credential identifier, and
+
+\[
+\texttt{claimId} = \operatorname{keccak256}(\texttt{credentialIdHash},\ \texttt{reTypeCode},\ \texttt{qtyKWh},\ \texttt{readingTimestamp}).
+\]
+
+The first mechanism prevents the same credential from being re-used for a second mint. The second creates a deterministic anchor key for the disclosed claim. Together they provide a practical anti-duplication pattern: the credential is bound to issuance policy, while the disclosed claim remains identifiable for audit and anchoring purposes.
+
+\subsection{Off-chain credential and proof flow}
+Using \texttt{@mattrglobal/bbs-signatures}, the implementation supports the full off-chain BBS-related preparation pipeline:
+
+\begin{enumerate}
+  \item issue a verifiable credential,
+  \item generate a selective-disclosure proof,
+  \item verify the proof before submission,
+  \item submit the disclosed claim and verifier-compatible artifacts to the L2 mint path.
+\end{enumerate}
+
+The revealed fields were aligned with the intended paper-style policy:
+
+\[
+\texttt{REType + REQuantity + timestamp}
+\]
+
+plus \texttt{credentialIdHash} as the anti-replay binding element. This is an important design compromise: enough information is revealed to authorize issuance and prevent re-use, while the credential holder does not expose the entire underlying credential on-chain.
+
+\subsection{On-chain execution sequence}
+The practical issuance sequence implemented in the system is:
+
+\begin{enumerate}
+  \item prepare the BBS+ selective-disclosure artifact off-chain,
+  \item submit the claim to the L2 verifier and mint contract,
+  \item check expiry and duplicate-prevention conditions,
+  \item mint the token on L2 if the checks pass,
+  \item emit the L2-to-L1 message for later anchoring,
+  \item wait for the outbox execution window,
+  \item execute the outbox message on L1 and record the audit anchor.
+\end{enumerate}
+
+This sequence matters because it clarifies a subtle but important point: minting and anchoring are related but distinct events. The token is created on L2 during the runtime issuance flow; the L1 record is added later, after cross-layer finalization.
+
+\subsection{Automation and reproducibility}
+A single command was implemented to run the full automated flow:
+
+\begin{verbatim}
+npm run flow:bbs:arb:auto
+\end{verbatim}
+
+This command performs the following steps in sequence:
+
+\begin{enumerate}
+  \item generate BBS-related artifacts,
+  \item deploy the relevant L1 and L2 contracts,
+  \item execute mint and transfer transactions,
+  \item collect machine-readable benchmark output.
+\end{enumerate}
+
+From a research-engineering standpoint, this automation is a significant outcome in its own right. It reduces operator error, ensures that benchmark collection follows a consistent procedure, and makes the implementation much easier to audit or extend.
+
+\subsection{Engineering procedure actually followed}
+The build process was executed in the following order:
+
+\begin{enumerate}
+  \item initialize and stabilize project scripts and configuration,
+  \item harden verifier administration controls,
+  \item add BBS claim interfaces and L2 BBS mint contracts,
+  \item add mock and simulation verifier contracts for controlled comparison,
+  \item implement local tests and deterministic local benchmarks,
+  \item implement real-testnet deployment and benchmark automation,
+  \item add an outbox status checker for L2-to-L1 executability,
+  \item add repeated benchmark mode with multi-run median and p95 reporting.
+\end{enumerate}
+
+The order is worth documenting because it reflects a deliberate methodology: correctness and reproducibility were established first, and only then were cost measurements taken seriously.
+
+\subsection{Practical execution walkthrough (what was done, and how)}
+To make the implementation process explicit and reproducible for another engineer, the team followed an operational sequence with concrete tooling and artifacts.
+
+\begin{enumerate}
+  \item \textbf{Environment and accounts setup.} Configure funded Sepolia accounts, RPC endpoints, and private keys in project environment files for both Ethereum Sepolia and Arbitrum Sepolia.
+  \item \textbf{Dependency and toolchain preparation.} Install Node dependencies for Hardhat scripts and, for Stylus work, install Rust/Cargo and \texttt{cargo-stylus}.
+  \item \textbf{Off-chain credential preparation.} Generate sample BBS credential and selective-disclosure presentation artifacts (for controlled measurement inputs).
+  \item \textbf{Native Stylus verifier deployment.} Deploy the Stylus verifier to Arbitrum Sepolia and record its deployed address for later flow execution.
+  \item \textbf{End-to-end L2 flow execution.} Run automated deployment and mint flow for both paths (SNARK-style and Stylus-native), including verify, mint, and transfer operations.
+  \item \textbf{Cross-layer anchor lifecycle tracking.} Check outbox status until messages become executable, then execute pending outbox messages on Ethereum Sepolia.
+  \item \textbf{Repeated benchmark collection.} Run repeated benchmark mode with fixed logic and varying run salt to avoid duplicate-credential reverts across iterations.
+  \item \textbf{Data consolidation and reporting.} Export JSON outputs and derive average, median, p95, and approximate USD values for report tables.
+\end{enumerate}
+
+The key benefit of this sequence is that it separates setup costs from recurring runtime behavior while preserving full traceability from script input to on-chain receipt.
+
+\subsection{Reproducible command path}
+The primary command path used to generate the reported artifacts is summarized below.
+
+\begin{verbatim}
+# 1) Deploy Stylus verifier (once, or when redeploying)
+npm run deploy:stylus:bbs:verifier
+
+# 2) Run full Arbitrum Sepolia automated flow (both paths)
+STYLUS_NATIVE_VERIFIER=<deployed_address> npm run flow:bbs:arb:auto
+
+# 3) Track and execute L2->L1 outbox messages when executable
+npm run check:arb:outbox
+# (if executable) execute them on L1
+npm run exec:arb:outbox
+
+# 4) Repeated benchmark for stronger inference
+npm run bench:bbs:arb:repeat:50
+\end{verbatim}
+
+This command path produced the machine-readable benchmark files used in this report, including:
+\texttt{docs/bench\_bbs\_l2\_arb\_sepolia\_auto.json},
+\texttt{docs/bench\_bbs\_l2\_arb\_sepolia\_repeat.json},
+\texttt{docs/arb\_sepolia\_outbox\_status.json},
+and \texttt{docs/arb\_sepolia\_outbox\_execute.json}.
+
+\section{Validation and Correctness Checks}
+
+The implementation was validated through Hardhat-based tests, with \textbf{11 passing tests} at the time of reporting. These tests covered both positive and negative cases so that benchmark results would be interpreted in the context of known behavioral correctness rather than isolated transaction success.
+
+\subsection{Covered behaviors}
+The test suite covered the following behaviors:
+
+\begin{itemize}
+  \item successful minting under a valid proof path,
+  \item rejection of tampered claims,
+  \item rejection of expired claims,
+  \item rejection of duplicate credential use,
+  \item successful token transfer after mint,
+  \item L1 anchor authentication checks,
+  \item confirmation that no active L1 mint fallback exists.
+\end{itemize}
+
+These behaviors collectively target the main security and integrity claims of the architecture: only valid claims should mint, stale or manipulated claims must fail, replay attempts must be blocked, and L1 must remain strictly an audit layer rather than a second issuance channel.
+
+\section{Benchmark Methodology}
+
+\subsection{Why multiple benchmark modes were necessary}
+Benchmarking blockchain systems is inherently noisy. Gas usage depends not only on contract logic but also on calldata shape, branch behavior, storage state, network conditions, and in live settings the effective gas price at the time of transaction submission. To separate these effects, the implementation used three benchmark modes.
+
+\subsection{Local deterministic benchmark}
+\textbf{File:} \texttt{docs/bench\_bbs\_l2\_local.json}
+
+The local benchmark was designed to provide controlled comparison in a deterministic environment. Its purpose was not to estimate real-world fees, but to reveal whether logical code-path differences---for example verifier style, calldata size, or internal state transitions---cause gas differences before network effects are introduced.
+
+\subsection{Single-run real testnet benchmark}
+\textbf{File:} \texttt{docs/bench\_bbs\_l2\_arb\_sepolia\_auto.json}
+
+The single-run testnet benchmark used real receipts on:
+
+\begin{itemize}
+  \item L1 Sepolia (chain ID \texttt{11155111}),
+  \item L2 Arbitrum Sepolia (chain ID \texttt{421614}).
+\end{itemize}
+
+This benchmark is operationally meaningful because it captures live execution conditions and effective gas prices. However, it still represents only one sample and should therefore be treated as illustrative rather than conclusive.
+
+\subsection{Repeated benchmark for stronger inference}
+\textbf{File:} \texttt{docs/bench\_bbs\_l2\_arb\_sepolia\_repeat.json}
+
+The repeated benchmark reruns the same operations multiple times and reports average, median, and p95 values. This is the most appropriate source for comparative conclusions because it reduces the chance that a temporary network condition or one unusual submission distorts the analysis. In this report, repeated measurement is therefore treated as the stronger signal whenever it conflicts with a one-shot snapshot.
+
+\subsection{Fee conversion model}
+To provide a more intuitive sense of scale for readers who do not routinely work in gas units, gas costs were translated into approximate USD values according to:
+
+\[
+\text{Fee}_{\mathrm{ETH}} = \frac{\text{gasUsed} \times \text{effectiveGasPrice (wei)}}{10^{18}},
+\qquad
+\text{Fee}_{\mathrm{USD}} = \text{Fee}_{\mathrm{ETH}} \times P_{\mathrm{ETH/USD}}.
+\]
+
+The report used the assumption
+
+\[
+P_{\mathrm{ETH/USD}} = \$2071.03
+\]
+
+based on the Ethereum price reference cited by the authors. Because Sepolia ETH is not a market-priced asset, the USD figures should be read as \emph{sense-of-scale approximations}, not as directly billable testnet market values.
+
+\section{Results and Analysis}
+
+\subsection{Single-run testnet snapshot}
+Table~\ref{tab:single-run} shows the runtime gas values obtained from one Arbitrum Sepolia run.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Single-run Arbitrum Sepolia runtime gas.}
+\label{tab:single-run}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Path} & \textbf{Verify (est.) gas} & \textbf{Mint gas} & \textbf{Transfer gas} \\
+\midrule
+Solidity SNARK path (mock verifier) & 40,557 & 181,609 & 26,801 \\
+Stylus native path (deployed verifier) & 68,252 & 199,407 & 26,801 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In isolation, this snapshot suggests that the SNARK-style path is cheaper for both verification and minting in this particular run. However, a single measurement is still too fragile to support a strong conclusion, which is precisely why repeated benchmarking was included.
+
+\subsection{Repeated benchmark (N = 50)}
+Table~\ref{tab:repeat} provides the stronger signal obtained from repeated runs.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Repeated Arbitrum Sepolia benchmark (\(N = 50\)).}
+\label{tab:repeat}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Path / Operation} & \textbf{Avg gas} & \textbf{Median gas} & \textbf{p95 gas} & \textbf{Avg fee (USD)} \\
+\midrule
+SNARK verify (estimate) & 33,396 & 33,393 & 33,405 & 0.00139 \\
+SNARK mint & 139,883 & 136,318 & 163,352 & 0.00581 \\
+SNARK transfer & 26,801 & 26,801 & 26,801 & 0.00111 \\
+\midrule
+Stylus verify (estimate) & 61,222 & 61,252 & 61,252 & 0.00254 \\
+Stylus mint & 166,380 & 162,016 & 189,086 & 0.00689 \\
+Stylus transfer & 26,801 & 26,801 & 26,801 & 0.00111 \\
+Stylus setDigestApproval (harness step) & 78,647 & 78,649 & 78,649 & 0.00326 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The repeated benchmark leads to three clearer conclusions:
+
+\begin{itemize}
+  \item in the current harness, the SNARK-style path is cheaper than the Stylus-native path for both verification and minting,
+  \item the Stylus path carries an additional \texttt{setDigestApproval} step in the present semantics harness, which raises per-claim total cost when included,
+  \item transfer cost was effectively identical across both paths.
+\end{itemize}
+
+This is a good example of why one-shot blockchain measurements should be treated cautiously. Repeated sampling provided a more stable signal and confirmed that the direction seen in the one-shot run persists under larger \(N\).
+
+\subsection{Runtime totals per issuance cycle}
+From a deployment perspective, the most meaningful metric for repeated operation is the \emph{runtime total per issuance cycle}. Setup costs are paid once and then amortized, while runtime costs recur for each claim.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Repeated benchmark average runtime totals (\(N = 50\)).}
+\label{tab:runtime-total}
+\begin{tabular}{>{\raggedright\arraybackslash}p{6.2cm}rr}
+\toprule
+\textbf{Path} & \textbf{Avg runtime total (ETH)} & \textbf{Avg runtime total (USD)} \\
+\midrule
+SNARK path (verify + mint + transfer) & 0.000004009 & 0.00830 \\
+Stylus path (verify + mint + transfer) & 0.000005090 & 0.01054 \\
+Stylus path (+ setDigestApproval harness step) & 0.000006664 & 0.01380 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At this level of analysis, the SNARK-style path is lower in recurring runtime cost for the current implementation. Using average gas totals, the Stylus-native path is about \(27.2\%\) higher when \texttt{setDigestApproval} is excluded and about \(66.5\%\) higher when that harness step is included. This suggests that the choice between approaches should still consider maintainability, verifier maturity, tooling, and production cryptographic integration, not gas alone.
+
+\subsection{Setup versus runtime cost}
+For completeness, the single-run path-level total fees are reproduced in Table~\ref{tab:single-total}.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Single-run path-level total fees (runtime includes verify estimate + mint + transfer).}
+\label{tab:single-total}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm} >{\centering\arraybackslash}p{3.2cm} >{\centering\arraybackslash}p{3.2cm} >{\centering\arraybackslash}p{3.2cm}}
+\toprule
+\textbf{Path} & \shortstack{\textbf{Setup total}\\\textbf{(ETH / USD)}} & \shortstack{\textbf{Runtime total}\\\textbf{(ETH / USD)}} & \shortstack{\textbf{Grand total}\\\textbf{(ETH / USD)}} \\
+\midrule
+SNARK path (single-run snapshot) & 0.000041348 / 0.08563 & 0.000004982 / 0.01032 & 0.000046330 / 0.09595 \\
+Stylus path (single-run snapshot) & 0.000029852 / 0.06182 & 0.000005890 / 0.01220 & 0.000035742 / 0.07402 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These values are useful mainly for illustrating the separation between one-time and recurring costs. In this single-run setup comparison, the Stylus path reused an already deployed verifier, which lowers setup cost but does not change the recurring runtime trend. For architectural decision-making, the repeated runtime totals are more informative because a production system will usually perform many issuance cycles after deployment.
+
+\subsection{L2-to-L1 outbox execution cost}
+The outbox status file was reported as:
+
+\begin{center}
+\texttt{docs/arb\_sepolia\_outbox\_status.json}
+\end{center}
+
+In the reported run, both latest messages reached the status \texttt{EXECUTED} on Ethereum Sepolia. Table~\ref{tab:outbox} summarizes the corresponding L1 receipts.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Executed L2-to-L1 outbox messages (Ethereum Sepolia receipts).}
+\label{tab:outbox}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Path} & \textbf{L1 execution tx} & \textbf{L1 fee (ETH)} & \textbf{L1 fee (USD)} \\
+\midrule
+SNARK path anchor execution & \texttt{0xc7d1...b0ff} & 0.000321995 & 0.6668 \\
+Stylus path anchor execution & \texttt{0x0a21...ed28} & 0.000322607 & 0.6681 \\
+\midrule
+\textbf{Total} & --- & \textbf{0.000644601} & \textbf{1.3349} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Full transaction hashes:
+
+\begin{itemize}
+  \item SNARK path L1 execution:\\
+  \nolinkurl{0xc7d147955396230f5302244724cd16259f5fa3c381f365915484614d5833b0ff}
+  \item Stylus path L1 execution:\\
+  \nolinkurl{0x0a2112d657ebf77ba3a09df85ce4aae249704d8d830597f73d21e7cc67a4ed28}
+\end{itemize}
+
+This result is important for end-to-end interpretation. The L2 runtime path is inexpensive, but the L1 anchoring step is not free and must be accounted for separately. In other words, an L2-first architecture lowers the cost of repeated execution, yet the final audit trail still carries an L1 cost when the outbox message is executed.
+
+\section{Security and Correctness Considerations}
+
+\subsection{Minimal disclosure and policy enforcement}
+The implementation preserves the paper's intended privacy direction by revealing only the fields needed for policy enforcement. From a systems perspective, this is preferable to publishing raw credential contents because it narrows the on-chain information footprint while still allowing public verification of the mint decision.
+
+\subsection{Replay and duplication resistance}
+The use of \texttt{credentialIdHash} as a one-time-use binding is central to duplicate prevention. Even if a claimant attempts to resubmit the same credential or reuse a previously valid disclosure pattern, the credential-binding check prevents the credential from authorizing a second mint. This is one of the most important correctness properties of the system because any failure here would directly undermine credit integrity.
+
+\subsection{Freshness and expiry}
+The explicit expiry field allows the mint path to reject stale claims. This check matters because selective-disclosure systems can otherwise create ambiguity around how long a disclosure should remain valid. By enforcing expiry at the authorization layer, the implementation ties privacy-preserving claims to a bounded period of acceptability.
+
+\subsection{No L1 bypass path}
+A valuable architectural property of the implementation is that L1 cannot be used as an alternate minting route. This matters both for security and for audit coherence. Every valid token must pass through the same L2 rules before any L1 anchor is recorded, which means the audit trail reflects the actual issuance policy rather than a mixture of heterogeneous mint paths.
+
+\subsection{Cross-layer lifecycle awareness}
+The outbox step highlights that cross-layer designs have lifecycle complexity beyond a single transaction receipt. A mint on L2 and an audit anchor on L1 are connected, but they do not occur simultaneously. Any production deployment must therefore monitor not only L2 mint success but also the final execution state of the corresponding outbox message.
+
+\section{Limitations}
+
+This report should be read with the following scope limitations in mind:
+
+\begin{itemize}
+  \item the current benchmark harness still uses non-production verifier semantics for controlled path comparison (mock SNARK verifier and digest-approval Stylus semantics),
+  \item the full production cryptographic path---including real on-chain RISC Zero receipt verification and full native BBS+ verification semantics---remains a subsequent milestone,
+  \item all fee measurements were taken on Sepolia and Arbitrum Sepolia, so they are informative engineering indicators rather than mainnet cost commitments.
+\end{itemize}
+
+These limitations do not negate the value of the implementation. Rather, they define what the reported numbers mean: the work validates architectural feasibility, operational flow, and comparative behavior, while leaving final production verifier integration as the next step.
+
+\section{Next Practical Steps}
+
+The implementation establishes a solid baseline for the next iteration. The most important follow-on tasks are:
+
+\begin{enumerate}
+  \item integrate real RISC Zero seal generation into the benchmark loop,
+  \item replace digest-approval Stylus semantics with full native BBS+ verification semantics,
+  \item extend repeated sampling beyond \(N = 50\) and add confidence intervals,
+  \item rerun the complete L2-to-L1 benchmark after production verifier integration,
+  \item evaluate whether anchor batching or alternative audit strategies can reduce the per-anchor L1 cost.
+\end{enumerate}
+
+The final point is particularly relevant in light of the outbox measurements: once the verifier path is productionized, the L1 anchor strategy may become one of the most important determinants of total end-to-end efficiency.
+
+\section{Conclusion}
+
+The project successfully produced an L2-first public-chain prototype that is faithful to the intent of the Green Token methodology. The implemented system supports selective-disclosure-aware verification, duplicate-safe minting, and authenticated L1 audit anchoring. It was validated through a passing test suite, exercised on live Arbitrum Sepolia and Ethereum Sepolia, and benchmarked using both one-shot and repeated measurements.
+
+The main engineering conclusion is not merely that the system works, but that the chosen architecture is sensible. Verification and minting can be moved to L2 without abandoning public verifiability, and repeated benchmark data suggests that both implemented verifier styles are operationally plausible. At the same time, the report makes clear that end-to-end cost analysis must include the L1 anchoring phase, not just the L2 runtime path.
+
+In summary, the current implementation is a credible engineering baseline for academic evaluation and a practical foundation for a production-grade follow-up. The remaining work is now clearly defined: replace the benchmark harness with production cryptographic verification, extend repeated measurements, and optimize the cross-layer anchoring strategy.
+
+\section*{References}
+\begin{enumerate}
+  \item Green Token paper reference: \texttt{GreenCreditWTSC\_25.pdf}.
+  \item CoinMarketCap Ethereum price page (accessed April 2, 2026): \url{https://coinmarketcap.com/currencies/ethereum/}.
+  \item Arbitrum documentation (message lifecycle and outbox concepts): \url{https://docs.arbitrum.io/}.
+\end{enumerate}
+
+\end{document}
