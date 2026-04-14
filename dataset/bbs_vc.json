@@ -1,0 +1,43 @@
+{
+  "issuer": {
+    "publicKeyHex": "0xa6149b2473c9b1087c91d59853888f71fac9b1debf05dbdf6e4770af006d14fdfb0a9e5afb9863b43136a1721b7a391e0b083f0ee12f06d786c356972f702375eacf1761a5fae84995f3796429ed9679bb47f45f8d43fbb0b4930519dbe91b39",
+    "secretKeyHex": "0x***REMOVED***"
+  },
+  "vc": {
+    "id": "urn:uuid:green-credit-vc-1",
+    "type": [
+      "VerifiableCredential",
+      "RenewableEnergyVC"
+    ],
+    "issuer": "did:example:registry",
+    "issuanceDate": "2026-03-24T22:07:37.621Z",
+    "credentialSubject": {
+      "ownerID": "did:example:owner789",
+      "meterID": "meter-56789",
+      "siteID": "site-34567",
+      "reType": "Solar",
+      "qtyKWh": "100",
+      "timestamp": "2025-02-15T12:00:00Z"
+    }
+  },
+  "credentialIdHash": "0x58426b486e27e3c3d67d348407a97bd36c4f8bf0f916442ae4a8130ce0757052",
+  "messageOrder": [
+    "ownerID",
+    "meterID",
+    "siteID",
+    "reType",
+    "qtyKWh",
+    "timestamp",
+    "credentialIdHash"
+  ],
+  "messagesHex": [
+    "0x6469643a6578616d706c653a6f776e6572373839",
+    "0x6d657465722d3536373839",
+    "0x736974652d3334353637",
+    "0x536f6c6172",
+    "0x313030",
+    "0x323032352d30322d31355431323a30303a30305a",
+    "0x58426b486e27e3c3d67d348407a97bd36c4f8bf0f916442ae4a8130ce0757052"
+  ],
+  "signatureHex": "0x981d4f98d5b08cf7bdf796c33330a5dbb1f2bfde2c59a5022e77fca58ec2d437cc6aacd5614ea5fdb1a86246bf037fcc6141e529fcdc704e26ef0699ca82c49012c588ada0e784368be09db580600dd9140eca142d204c707d4cc061f07637d7a65745345ac7171fc802f2d59e2c9e31"
+}
