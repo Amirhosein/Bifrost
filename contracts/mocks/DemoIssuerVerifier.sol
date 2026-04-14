@@ -3,6 +3,7 @@ pragma solidity ^0.8.23;
 
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {MessageHashUtils} from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IProofVerifier} from "../interfaces/IProofVerifier.sol";
 
 /// @notice Demo verifier that treats `proof` as an ECDSA signature from the issuer.
@@ -13,7 +14,7 @@ import {IProofVerifier} from "../interfaces/IProofVerifier.sol";
 /// - hidden fields are inside `hiddenCommitment`
 /// - disclosed fields are (epochIndex, typeCode, qtyKWh, policyNonce)
 /// - the issuer's signature stands in for (BBS+ signature / SNARK)
-contract DemoIssuerVerifier is IProofVerifier {
+contract DemoIssuerVerifier is IProofVerifier, Ownable {
     // OZ v5 moved helpers like `toEthSignedMessageHash` into MessageHashUtils.
     using MessageHashUtils for bytes32;
     using ECDSA for bytes32;
@@ -22,12 +23,12 @@ contract DemoIssuerVerifier is IProofVerifier {
 
     address public issuerSigner;
 
-    constructor(address issuerSigner_) {
+    constructor(address issuerSigner_) Ownable(msg.sender) {
         require(issuerSigner_ != address(0), "issuer=0");
         issuerSigner = issuerSigner_;
     }
 
-    function setIssuerSigner(address issuerSigner_) external {
+    function setIssuerSigner(address issuerSigner_) external onlyOwner {
         // In a real deployment, this must be AccessControlled + timelocked.
         require(issuerSigner_ != address(0), "issuer=0");
         issuerSigner = issuerSigner_;

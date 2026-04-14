@@ -76,14 +76,20 @@ async function main() {
 
   const verifier = await ethers.getContractAt("DemoIssuerVerifier", verifierAddr);
 
+  const dtHash = ethers.solidityPackedKeccak256(
+    ["uint64", "uint16", "uint256", "uint128"],
+    [epochIndex, typeCode, qtyKWh, policyNonce]
+  );
+
   // Compute the exact digest the contract will verify.
   const digest = await verifier.computeDigest(
     await holder.getAddress(),
+    dtHash,
+    hiddenCommitment,
     epochIndex,
     typeCode,
     qtyKWh,
     policyNonce,
-    hiddenCommitment,
     expiry
   );
 

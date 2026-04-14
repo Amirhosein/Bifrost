@@ -7,7 +7,7 @@ async function main() {
   console.log("Oracle:", oracle.address);
 
   const MetReg = await ethers.getContractFactory("MetReg", ga);
-  const metreg = await MetReg.deploy(await ga.getAddress());
+  const metreg = await MetReg.deploy(await ga.getAddress(), await ra.getAddress());
   await metreg.waitForDeployment();
   console.log("MetReg:", await metreg.getAddress());
 

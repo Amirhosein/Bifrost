@@ -20,15 +20,17 @@ async function main() {
 
   const [deployer] = await ethers.getSigners();
   const registryAdmin = process.env.REGISTRY_ADMIN ?? deployer.address;
+  const issuer = process.env.ISSUER_ADDR ?? deployer.address;
 
   console.log("Deployer:", deployer.address);
   console.log("Registry admin:", registryAdmin);
+  console.log("Issuer:", issuer);
   console.log("L2 messenger:", l2Messenger);
   console.log("L1 anchor:", l1Anchor);
 
   // Demo verifier (ECDSA-based) used by the repo tests/demo.
   const Verifier = await ethers.getContractFactory("DemoIssuerVerifier");
-  const verifier = await Verifier.deploy();
+  const verifier = await Verifier.deploy(issuer);
   await verifier.waitForDeployment();
   const verifierAddr = await verifier.getAddress();
   console.log("DemoIssuerVerifier:", verifierAddr);
