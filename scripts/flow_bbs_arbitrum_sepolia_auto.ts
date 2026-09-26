@@ -9,6 +9,7 @@ import {
   blsVerifyProof,
   generateBls12381G2KeyPair,
 } from "@mattrglobal/bbs-signatures";
+import { redactRpcUrl } from "./lib/redact";
 
 type Claims = {
   reTypeCode: number;
@@ -702,8 +703,8 @@ async function main() {
     : (l2Deployer.address as `0x${string}`);
   const stylusVerifierAddress = maybeAddress("STYLUS_NATIVE_VERIFIER");
 
-  console.log("L1 chainId:", l1Network.chainId.toString(), "| RPC:", sepoliaRpc);
-  console.log("L2 chainId:", l2Network.chainId.toString(), "| RPC:", arbSepoliaRpc);
+  console.log("L1 chainId:", l1Network.chainId.toString(), "| RPC host:", redactRpcUrl(sepoliaRpc));
+  console.log("L2 chainId:", l2Network.chainId.toString(), "| RPC host:", redactRpcUrl(arbSepoliaRpc));
   console.log("L1 deployer:", l1Deployer.address);
   console.log("L2 deployer:", l2Deployer.address);
   console.log("Issuer:", issuer.address);
@@ -813,8 +814,8 @@ async function main() {
     generatedAt: new Date().toISOString(),
     runMode: "arbitrum-sepolia-bbs-auto",
     networks: {
-      l1: { chainId: l1Network.chainId.toString(), rpc: sepoliaRpc },
-      l2: { chainId: l2Network.chainId.toString(), rpc: arbSepoliaRpc },
+      l1: { chainId: l1Network.chainId.toString(), rpcHost: redactRpcUrl(sepoliaRpc) },
+      l2: { chainId: l2Network.chainId.toString(), rpcHost: redactRpcUrl(arbSepoliaRpc) },
     },
     actors: {
       l1Deployer: l1Deployer.address,
@@ -833,8 +834,9 @@ async function main() {
       timestampIso: bbs.timestampIso,
     },
     artifacts: {
-      vcPath: bbs.vcPath,
-      presentationPath: bbs.presentationPath,
+      // Repo-relative so the committed report does not expose local usernames/paths.
+      vcPath: path.relative(process.cwd(), bbs.vcPath),
+      presentationPath: path.relative(process.cwd(), bbs.presentationPath),
     },
     deployments,
     rows,

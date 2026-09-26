@@ -4,11 +4,11 @@
   "networks": {
     "l1": {
       "chainId": "11155111",
-      "rpc": "https://eth-sepolia.g.alchemy.com/v2/***REMOVED***"
+      "rpcHost": "eth-sepolia.g.alchemy.com"
     },
     "l2": {
       "chainId": "421614",
-      "rpc": "https://arb-sepolia.g.alchemy.com/v2/***REMOVED***"
+      "rpcHost": "arb-sepolia.g.alchemy.com"
     }
   },
   "actors": {
@@ -30,8 +30,8 @@
     "timestampIso": "2025-02-15T12:00:00Z"
   },
   "artifacts": {
-    "vcPath": "/Users/amirhossein/Documents/Documents - Amirhossein’s MacBook Air/Alberta/Research/GToken/ECE910CAPSTONE/dataset/bbs_vc.testnet.auto.json",
-    "presentationPath": "/Users/amirhossein/Documents/Documents - Amirhossein’s MacBook Air/Alberta/Research/GToken/ECE910CAPSTONE/dataset/bbs_presentation.testnet.auto.json"
+    "vcPath": "dataset/bbs_vc.testnet.auto.json",
+    "presentationPath": "dataset/bbs_presentation.testnet.auto.json"
   },
   "deployments": [
     {

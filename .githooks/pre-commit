@@ -1,0 +1,7 @@
+#!/bin/sh
+# Blocks commits that stage credentials (private keys, RPC URLs with API keys, .env files).
+# Enabled by `npm install` (package.json "prepare") via: git config core.hooksPath .githooks
+node scripts/check_secrets.js --staged || {
+  echo "Commit blocked: remove the credential(s) above, or keep them in .env (git-ignored)." >&2
+  exit 1
+}
