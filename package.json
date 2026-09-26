@@ -34,7 +34,14 @@
     "deploy:l2:bbs:risc0": "hardhat run --network arbitrumSepolia scripts/deploy_l2_bbs_risc0.ts",
     "deploy:stylus:bbs:verifier": "ts-node scripts/deploy_stylus_bbs_verifier.ts",
     "bench:bbs:arb:repeat:20": "BENCH_REPEAT_COUNT=20 npm run bench:bbs:arb:repeat",
-    "bench:bbs:arb:repeat:50": "BENCH_REPEAT_COUNT=50 npm run bench:bbs:arb:repeat"
+    "bench:bbs:arb:repeat:50": "BENCH_REPEAT_COUNT=50 npm run bench:bbs:arb:repeat",
+    "test:bbs:bound": "hardhat test test/bbs_verifier_vectors.test.ts test/bbs_bound_mint.test.ts test/bbs_bound_attacks.test.ts",
+    "bench:bbs:bound:local": "hardhat run scripts/benchmark_bbs_bound_local.ts",
+    "demo:bbs:bound": "hardhat run scripts/demo_bbs_bound_local.ts",
+    "bench:bbs:bound:arb": "hardhat run --network arbitrumSepolia scripts/benchmark_bbs_bound_arb_sepolia.ts",
+    "bench:bbs:bound:arb:50": "BENCH_REPEAT_COUNT=50 npm run bench:bbs:bound:arb",
+    "check:secrets": "node scripts/check_secrets.js",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "devDependencies": {
     "@arbitrum/sdk": "^4.0.4",
@@ -46,6 +53,9 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "@mattrglobal/bbs-signatures": "^2.0.0"
+    "@digitalbazaar/bbs-signatures": "^3.1.0",
+    "@mattrglobal/bbs-signatures": "^2.0.0",
+    "@noble/curves": "^2.4.0",
+    "@noble/hashes": "^2.4.0"
   }
 }
