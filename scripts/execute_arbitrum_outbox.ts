@@ -80,7 +80,9 @@ async function main() {
     );
   }
 
-  const l1Provider = new providers.JsonRpcProvider(sepoliaRpc);
+  // The Arbitrum SDK scans L1 logs over wide block ranges; free-tier provider keys (e.g. Alchemy)
+  // cap eth_getLogs at 10 blocks, so allow a separate L1 endpoint for these scripts.
+  const l1Provider = new providers.JsonRpcProvider(process.env.OUTBOX_L1_RPC_URL || sepoliaRpc);
   const l2Provider = new providers.JsonRpcProvider(arbSepoliaRpc);
   const l1Signer = new Wallet(pk, l1Provider);
 
