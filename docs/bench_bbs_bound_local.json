@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-09-26T01:19:33.618Z",
+  "network": "hardhat",
+  "hardfork": "prague",
+  "ciphersuite": "BLS12-381-SHA-256 (draft-irtf-cfrg-bbs-signatures-06)",
+  "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "rows": [
+    {
+      "path": "common",
+      "operation": "deploy:BbsBls12381Verifier",
+      "gasUsed": "2435169",
+      "notes": "L=8; derives 9 generators on-chain (hash_to_curve) and stores params as code"
+    },
+    {
+      "path": "hardened",
+      "operation": "deploy:GTokenL2BbsBoundArb",
+      "gasUsed": "1666045",
+      "notes": "Computes the designated-ledger domain once in the constructor"
+    },
+    {
+      "path": "ph-bound-only",
+      "operation": "deploy:GTokenBbsPresentationBoundOnly",
+      "gasUsed": "1547906"
+    },
+    {
+      "path": "paper-baseline",
+      "operation": "deploy:GTokenBbsPaperBaseline",
+      "gasUsed": "1187807"
+    },
+    {
+      "path": "paper-baseline",
+      "operation": "requestGToken (R=3)",
+      "gasUsed": "381077",
+      "calldataBytes": 1380,
+      "notes": "Paper disclosure policy {REType, REQuantity, timestamp}"
+    },
+    {
+      "path": "paper-baseline",
+      "operation": "requestGToken (R=5)",
+      "gasUsed": "395644",
+      "calldataBytes": 1572,
+      "notes": "Same disclosure set as the bound ledgers"
+    },
+    {
+      "path": "ph-bound-only",
+      "operation": "mintBound (R=5)",
+      "gasUsed": "393792",
+      "calldataBytes": 932,
+      "notes": "Presentation binding + nullifier; no L1 anchor"
+    },
+    {
+      "path": "hardened",
+      "operation": "mintBound (R=5)",
+      "gasUsed": "409547",
+      "calldataBytes": 932,
+      "notes": "Adds designated-ledger domain + ArbSys.sendTxToL1 (MockArbSys locally; real ArbSys cost differs)"
+    },
+    {
+      "path": "common",
+      "operation": "verifyProof (estimateGas)",
+      "gasUsed": "308631",
+      "notes": "L=8, R=5, precomputed domain"
+    },
+    {
+      "path": "hardened",
+      "operation": "transfer",
+      "gasUsed": "51546",
+      "calldataBytes": 68,
+      "notes": "Post-mint transfer (fresh recipient)"
+    }
+  ],
+  "verifyStages": {
+    "shapeChecks": "6221",
+    "loadParams": "3540",
+    "msmT1": "32695",
+    "msmT2": "103936",
+    "challenge": "17729",
+    "pairing": "106737",
+    "messageScalarsR5": "27853"
+  },
+  "scaling": {
+    "byDisclosed": [
+      {
+        "L": 8,
+        "R": 0,
+        "verifyGas": "311399"
+      },
+      {
+        "L": 8,
+        "R": 1,
+        "verifyGas": "312321"
+      },
+      {
+        "L": 8,
+        "R": 2,
+        "verifyGas": "313133"
+      },
+      {
+        "L": 8,
+        "R": 3,
+        "verifyGas": "313853"
+      },
+      {
+        "L": 8,
+        "R": 4,
+        "verifyGas": "314764"
+      },
+      {
+        "L": 8,
+        "R": 5,
+        "verifyGas": "315833"
+      },
+      {
+        "L": 8,
+        "R": 6,
+        "verifyGas": "316857"
+      },
+      {
+        "L": 8,
+        "R": 7,
+        "verifyGas": "318014"
+      },
+      {
+        "L": 8,
+        "R": 8,
+        "verifyGas": "319238"
+      }
+    ],
+    "byMessageCount": [
+      {
+        "L": 5,
+        "R": 5,
+        "verifyGas": "284600",
+        "verifierDeployGas": "2230677"
+      },
+      {
+        "L": 8,
+        "R": 5,
+        "verifyGas": "315837",
+        "verifierDeployGas": "2435169"
+      },
+      {
+        "L": 12,
+        "R": 5,
+        "verifyGas": "356130",
+        "verifierDeployGas": "2710648"
+      },
+      {
+        "L": 16,
+        "R": 5,
+        "verifyGas": "395682",
+        "verifierDeployGas": "2989633"
+      }
+    ]
+  }
+}

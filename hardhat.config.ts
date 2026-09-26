@@ -24,6 +24,9 @@ const accounts = DEPLOYER_PRIVATE_KEY ? [DEPLOYER_PRIVATE_KEY] : [];
 const networks: HardhatUserConfig["networks"] = {
   hardhat: {
     chainId: 31337,
+    // Prague enables the EIP-2537 BLS12-381 precompiles used by the real BBS verifier
+    // (live on Arbitrum since ArbOS 51).
+    hardfork: "prague",
   },
 };
 

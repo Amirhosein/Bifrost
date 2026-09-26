@@ -1,0 +1,1991 @@
+{
+  "generatedAt": "2026-09-26T02:18:48.915Z",
+  "networks": {
+    "l2ChainId": "421614"
+  },
+  "config": {
+    "repeatCount": 50,
+    "freshRecipient": false,
+    "relayer": "0xeE04735EAc6A3Dd855ba0a26744f80CF770190A4",
+    "issuerPublicKey": "0x8dbfa499e787fe8c59d1cd263c41133db27eff7b582369d8b3b2cfb5e739c7e21adfad026a16025dc5d4a9fe155f4e8507991dae68b2e864c25e7ac758570833dc47cba3a21ab45d1499aa23103616640f3908324d55b2fc770f34a7658b122e"
+  },
+  "deployments": {
+    "verifier": "0x7DF47f2b23c96570858cDBD2bbb886486198276F",
+    "l1Anchor": "0x8BDC80D280e1768B583a0838C0c41c819E43039D",
+    "token": "0x75915E9747562cfbe37f8164100b23CECeF33a3d"
+  },
+  "l1Rows": [
+    {
+      "operation": "deploy:GTokenAnchorArb (L1)",
+      "txHash": "0x909d3eac516a08a5268816c76917ac40b3e535af84fd030425ba1718543b7954",
+      "gasUsed": "667709",
+      "effectiveGasPrice": "1043953234"
+    },
+    {
+      "operation": "anchor.setConfig (L1)",
+      "txHash": "0xfd3d603da3687cb8222b75352c8a6ae141005be024ecdcc63e8c1def4dcde71c",
+      "gasUsed": "46356",
+      "effectiveGasPrice": "1013838929"
+    }
+  ],
+  "l2ToL1Messages": [
+    {
+      "iteration": 0,
+      "l2TxHash": "0x48e5fc14721fb6ccd6d33e3a2ba5a2d909ed168fe08ce94c4fb720990e707ee8",
+      "msgNum": "117923"
+    },
+    {
+      "iteration": 1,
+      "l2TxHash": "0x1e67bfadcb25a8086490043ee6b6c3e03aa0d511ed4ff740adfb17cb67741b8a",
+      "msgNum": "117924"
+    },
+    {
+      "iteration": 2,
+      "l2TxHash": "0xe642440a3bfb1c8cb730d0cf44fae6c88519d0cedd9d1ee16644465175e33eb5",
+      "msgNum": "117925"
+    },
+    {
+      "iteration": 3,
+      "l2TxHash": "0xfbb2af73db0c3dfbc0fa8dde9fe74195430802e77562557e8e634d9344dc4288",
+      "msgNum": "117926"
+    },
+    {
+      "iteration": 4,
+      "l2TxHash": "0x58e09876565b1274209c9301aa26d95559d0cc82f6b3c94c243310eefe98e41c",
+      "msgNum": "117927"
+    },
+    {
+      "iteration": 5,
+      "l2TxHash": "0xf7cd15fb8c21f04018615694859b0de65859c039f31abebf98e59d4249264c74",
+      "msgNum": "117928"
+    },
+    {
+      "iteration": 6,
+      "l2TxHash": "0x119f2b77cc1d7a08dcea38c7ac341fb6a0915631b91c92a77c77c9322e0060e0",
+      "msgNum": "117929"
+    },
+    {
+      "iteration": 7,
+      "l2TxHash": "0x8433b0dc78bdb1334918bb90da330e31e0ba412c2ec97e64457b3f27aa9fe38c",
+      "msgNum": "117930"
+    },
+    {
+      "iteration": 8,
+      "l2TxHash": "0x755cc7d6dc09b65a197274b8a34458d43132bf43a430615cff1f95706f844b50",
+      "msgNum": "117931"
+    },
+    {
+      "iteration": 9,
+      "l2TxHash": "0xfaf6164185ebf8ce5aaaaaedd31c94105996429219a7f270452e130c02ac65a4",
+      "msgNum": "117932"
+    },
+    {
+      "iteration": 10,
+      "l2TxHash": "0xff468c2f3e77e89fa0da4ccd8c622dccaf01e508f3e19cfc00f1d2a2474393ab",
+      "msgNum": "117933"
+    },
+    {
+      "iteration": 11,
+      "l2TxHash": "0xecffe70ca55b1dc3e222b5c07c406ae9a21590cc762ed5fc4d56104f0ccf8d23",
+      "msgNum": "117934"
+    },
+    {
+      "iteration": 12,
+      "l2TxHash": "0xcf0c0fa49235df39d5acc24979093e350a26a1c8118b46077a79392f7c901a95",
+      "msgNum": "117935"
+    },
+    {
+      "iteration": 13,
+      "l2TxHash": "0xda8523e20fe527e8c191cda922360e75784d400e8f83d68edaae18c3efaa64cc",
+      "msgNum": "117936"
+    },
+    {
+      "iteration": 14,
+      "l2TxHash": "0xd4cf07612a7cb8227f6c33c8f0d5799a440c0a10d8a630ff75ad299f98ec386d",
+      "msgNum": "117937"
+    },
+    {
+      "iteration": 15,
+      "l2TxHash": "0xfba6068d6e4bc8d7a9952d1fdae2c0db8a1fef5bcc7333084c8033687eb7d9fd",
+      "msgNum": "117938"
+    },
+    {
+      "iteration": 16,
+      "l2TxHash": "0x1e53a66e6e28176f7e1259d02861a5335f8188ae28da9486580e6794cb282d6c",
+      "msgNum": "117939"
+    },
+    {
+      "iteration": 17,
+      "l2TxHash": "0x997f295250cf5e509c031fdff3fe51f15296b253d5d8d5aface1f5df2045e30f",
+      "msgNum": "117940"
+    },
+    {
+      "iteration": 18,
+      "l2TxHash": "0x7f24a2be43b9cddac1c5bb05b775bd1fb7c852fbeb2945ebd4d41b2bd64138d2",
+      "msgNum": "117941"
+    },
+    {
+      "iteration": 19,
+      "l2TxHash": "0x665bc0e20f7ad6b4c31d53d726aa2d78a78c286a05e66cb8fbbc8aff2cf6f57b",
+      "msgNum": "117942"
+    },
+    {
+      "iteration": 20,
+      "l2TxHash": "0xcade62f41dc0d7391c36fdc23a559fa853da409f311c3222e1bcb97c818cfaa5",
+      "msgNum": "117943"
+    },
+    {
+      "iteration": 21,
+      "l2TxHash": "0x1c9a02fd7f3baedda5e3d32504b9ab54d5f4659dfb4c083d2f73dcdf925c2251",
+      "msgNum": "117944"
+    },
+    {
+      "iteration": 22,
+      "l2TxHash": "0x82985f878994b14bc197d061bf0e3ee4d897c2bc01f13a88c372fa0fdefc08ad",
+      "msgNum": "117945"
+    },
+    {
+      "iteration": 23,
+      "l2TxHash": "0x5a3e085e18b458ae6ebbc146e34ae6c8cf46be4074e499e3555ffef03bc5332f",
+      "msgNum": "117946"
+    },
+    {
+      "iteration": 24,
+      "l2TxHash": "0x5fac5f348558d2407d1ce118c152a865d21577600ab9cba40a16452dfdfa81af",
+      "msgNum": "117947"
+    },
+    {
+      "iteration": 25,
+      "l2TxHash": "0xb452db487f70eb5aae89279abeda00df52642da2aa0fc0dacce802cdf894af81",
+      "msgNum": "117948"
+    },
+    {
+      "iteration": 26,
+      "l2TxHash": "0x47ed223c79c71b787cd181b1e65e4ea15872f0e5b4f0ab350d9d6dae0bb56ec2",
+      "msgNum": "117949"
+    },
+    {
+      "iteration": 27,
+      "l2TxHash": "0xa87ade7a20308a9f8c0192c17e0e9db74c0d89cbeb0af0482484e1b51daf504c",
+      "msgNum": "117950"
+    },
+    {
+      "iteration": 28,
+      "l2TxHash": "0x8acb6c8ecb79f147406fc3c5159328c0eae01b87e1fd6f630239bc732143e3a6",
+      "msgNum": "117951"
+    },
+    {
+      "iteration": 29,
+      "l2TxHash": "0x0c53bd5d5b9d65a46936f9b14370e335efdc69134642a4b26c1fe215806f4f92",
+      "msgNum": "117952"
+    },
+    {
+      "iteration": 30,
+      "l2TxHash": "0xe1a233fb1904eb6b90afc6f855fa4e27acff53322a7ff48c01a38319f9d6841c",
+      "msgNum": "117953"
+    },
+    {
+      "iteration": 31,
+      "l2TxHash": "0xdfd66557b2474d21b604be04269607e7051bac249666f2d19fb424d58daf498d",
+      "msgNum": "117954"
+    },
+    {
+      "iteration": 32,
+      "l2TxHash": "0xd30f0a2973b341a8fe27162fcfc6688459b947289585a43f4905b8cb84b540e5",
+      "msgNum": "117955"
+    },
+    {
+      "iteration": 33,
+      "l2TxHash": "0xd9f54ed1a30f84ed297e04cfaf0363cde859239cdbbe48cb81639fc985b414ee",
+      "msgNum": "117956"
+    },
+    {
+      "iteration": 34,
+      "l2TxHash": "0x673bdc6fa812e6b190b102d4881d87376e256fadea313f2f018f5b52c0789b73",
+      "msgNum": "117957"
+    },
+    {
+      "iteration": 35,
+      "l2TxHash": "0x1e60b2f50886307879f769f7644965b26acb55a7f5bb7fabb3950bd5f2e10618",
+      "msgNum": "117958"
+    },
+    {
+      "iteration": 36,
+      "l2TxHash": "0x70adcf13021a65b8f79ad04103328010f0d8d09bc626d7df43a0a6d543e45d78",
+      "msgNum": "117959"
+    },
+    {
+      "iteration": 37,
+      "l2TxHash": "0x5c2fb0fccbaad1b97c082a1be49089e01aea9af273f117a26889167357f912bd",
+      "msgNum": "117960"
+    },
+    {
+      "iteration": 38,
+      "l2TxHash": "0x55dfd7dcbf4e0e3f37b38c84fdb927cfb3857ac665a32887ea59181785642e1b",
+      "msgNum": "117961"
+    },
+    {
+      "iteration": 39,
+      "l2TxHash": "0x940b5d69c37c0e30028600fa21346c809b61db995672454cbb8d348ec3c62136",
+      "msgNum": "117962"
+    },
+    {
+      "iteration": 40,
+      "l2TxHash": "0x9e4e9827d1a4d82337bbf914e46c66381ea79ae1d7d770dc2fcdb3d298f77738",
+      "msgNum": "117963"
+    },
+    {
+      "iteration": 41,
+      "l2TxHash": "0xda0caeec1cb901b0dc55573f58819139ff1aeb7054e9e7d6a767f13ea6bc7aab",
+      "msgNum": "117964"
+    },
+    {
+      "iteration": 42,
+      "l2TxHash": "0x70d9a970d09c0dbf50196ee369ca2d10b1b64a55063f5d83e8fe7f4b2376e3c0",
+      "msgNum": "117965"
+    },
+    {
+      "iteration": 43,
+      "l2TxHash": "0xae7a56f0bd2bf826ff0e6d9e65ede444e719acabacc8e5bcb751171640de564d",
+      "msgNum": "117966"
+    },
+    {
+      "iteration": 44,
+      "l2TxHash": "0x84849c0a9d423807ad2e13a05aade403ae3efdf94ef51d3673e3e526336ffdf2",
+      "msgNum": "117967"
+    },
+    {
+      "iteration": 45,
+      "l2TxHash": "0x3d8223763a5db43a7b732eac5f773921242f9b668f4ac3e91c0b63f4c22c1885",
+      "msgNum": "117968"
+    },
+    {
+      "iteration": 46,
+      "l2TxHash": "0x97e44a7f3a0862230cc2bb1860eeb8627a54d251d5b40a841c39bf521727fe1a",
+      "msgNum": "117969"
+    },
+    {
+      "iteration": 47,
+      "l2TxHash": "0x970b60ebb412605c379506012ff9bc6fbbb99a3d77f531a32a1ebfab65b816fa",
+      "msgNum": "117970"
+    },
+    {
+      "iteration": 48,
+      "l2TxHash": "0xea55c41f3a8c0694ab725fd56723180cbbf0d0a87ece02d31fece86d434acf5d",
+      "msgNum": "117971"
+    },
+    {
+      "iteration": 49,
+      "l2TxHash": "0xc744974136f6f0884b49c183dd394c2dc594826396c353e4aa38431d824c5c7d",
+      "msgNum": "117972"
+    }
+  ],
+  "rows": [
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "deploy:BbsBls12381Verifier",
+      "iteration": -1,
+      "chainId": "421614",
+      "txHash": "0x8be899f1f20c2118ac6a9dab012e02f9e7c1c2dead7fcefc49146c68578d30fc",
+      "gasUsed": "2555503",
+      "gasUsedForL1": "114932",
+      "effectiveGasPrice": "31118001",
+      "feeWei": "79522144909503",
+      "notes": "One-time setup"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "deploy:GTokenL2BbsBoundArb",
+      "iteration": -1,
+      "chainId": "421614",
+      "txHash": "0x4833012c3d78f4574058beab66559cf9569c67090d96af044c047d3663f75e64",
+      "gasUsed": "1755413",
+      "gasUsedForL1": "89200",
+      "effectiveGasPrice": "31242001",
+      "feeWei": "54842614701413",
+      "notes": "One-time setup"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 0,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338444",
+      "effectiveGasPrice": "31428000",
+      "feeWei": "10636618032000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 0,
+      "chainId": "421614",
+      "txHash": "0x48e5fc14721fb6ccd6d33e3a2ba5a2d909ed168fe08ce94c4fb720990e707ee8",
+      "gasUsed": "493441",
+      "gasUsedForL1": "15079",
+      "effectiveGasPrice": "31118001",
+      "feeWei": "15354897531441"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 0,
+      "chainId": "421614",
+      "txHash": "0xa801cedc7cdacd1669e3600fcfe51c23a45b2a07b262fb4c748fc003a7018e80",
+      "gasUsed": "54696",
+      "gasUsedForL1": "3150",
+      "effectiveGasPrice": "31442001",
+      "feeWei": "1719751686696"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 1,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338472",
+      "effectiveGasPrice": "31270000",
+      "feeWei": "10584019440000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 1,
+      "chainId": "421614",
+      "txHash": "0x1e67bfadcb25a8086490043ee6b6c3e03aa0d511ed4ff740adfb17cb67741b8a",
+      "gasUsed": "443752",
+      "gasUsedForL1": "15028",
+      "effectiveGasPrice": "31116001",
+      "feeWei": "13807787675752"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 1,
+      "chainId": "421614",
+      "txHash": "0x21d1ca34069a066b7d007176aff85d7c3aaf4ebe086e198cc9871bd01bd3ab2f",
+      "gasUsed": "37571",
+      "gasUsedForL1": "3125",
+      "effectiveGasPrice": "31692001",
+      "feeWei": "1190700169571"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 2,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338711",
+      "effectiveGasPrice": "31118000",
+      "feeWei": "10540008898000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 2,
+      "chainId": "421614",
+      "txHash": "0xe642440a3bfb1c8cb730d0cf44fae6c88519d0cedd9d1ee16644465175e33eb5",
+      "gasUsed": "451468",
+      "gasUsedForL1": "15027",
+      "effectiveGasPrice": "31190001",
+      "feeWei": "14081287371468"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 2,
+      "chainId": "421614",
+      "txHash": "0x6ef903098c8560ecb12b4b98b497ebe123adc3a75a2734fa4ff34d186df3d684",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31116001",
+      "feeWei": "1170864001629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 3,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338663",
+      "effectiveGasPrice": "31140000",
+      "feeWei": "10545965820000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 3,
+      "chainId": "421614",
+      "txHash": "0xfbb2af73db0c3dfbc0fa8dde9fe74195430802e77562557e8e634d9344dc4288",
+      "gasUsed": "443800",
+      "gasUsedForL1": "15052",
+      "effectiveGasPrice": "31246001",
+      "feeWei": "13866975243800"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 3,
+      "chainId": "421614",
+      "txHash": "0x7890788c86e2e9e90b78bebbea6061869848bffa28bf53e41c1afc2889d044c6",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31116001",
+      "feeWei": "1170864001629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 4,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338568",
+      "effectiveGasPrice": "31292000",
+      "feeWei": "10594469856000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 4,
+      "chainId": "421614",
+      "txHash": "0x58e09876565b1274209c9301aa26d95559d0cc82f6b3c94c243310eefe98e41c",
+      "gasUsed": "466856",
+      "gasUsedForL1": "15011",
+      "effectiveGasPrice": "31152001",
+      "feeWei": "14543498578856"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 4,
+      "chainId": "421614",
+      "txHash": "0x1c8cf7749640685f2b46583e771c2d161064b803ec45ad5f12382d3aec473f35",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31116001",
+      "feeWei": "1170864001629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 5,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "337892",
+      "effectiveGasPrice": "31994000",
+      "feeWei": "10810516648000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 5,
+      "chainId": "421614",
+      "txHash": "0xf7cd15fb8c21f04018615694859b0de65859c039f31abebf98e59d4249264c74",
+      "gasUsed": "443718",
+      "gasUsedForL1": "14960",
+      "effectiveGasPrice": "31330001",
+      "feeWei": "13901685383718"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 5,
+      "chainId": "421614",
+      "txHash": "0xf36e97eaa1bc4056de3a2633624efe0911b160853b92a21e2f33a9f08d9d461a",
+      "gasUsed": "37618",
+      "gasUsedForL1": "3172",
+      "effectiveGasPrice": "31222001",
+      "feeWei": "1174509233618"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 6,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338299",
+      "effectiveGasPrice": "31376000",
+      "feeWei": "10614469424000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 6,
+      "chainId": "421614",
+      "txHash": "0x119f2b77cc1d7a08dcea38c7ac341fb6a0915631b91c92a77c77c9322e0060e0",
+      "gasUsed": "451339",
+      "gasUsedForL1": "14862",
+      "effectiveGasPrice": "31318001",
+      "feeWei": "14135035253339"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 6,
+      "chainId": "421614",
+      "txHash": "0x7ecd5afabfba55873b5bbde9f76517c196fbd2201ce5c05a0df8e4e1f84c2b76",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31116001",
+      "feeWei": "1170864001629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 7,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338540",
+      "effectiveGasPrice": "31214000",
+      "feeWei": "10567187560000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 7,
+      "chainId": "421614",
+      "txHash": "0x8433b0dc78bdb1334918bb90da330e31e0ba412c2ec97e64457b3f27aa9fe38c",
+      "gasUsed": "443454",
+      "gasUsedForL1": "14752",
+      "effectiveGasPrice": "31882001",
+      "feeWei": "14138200871454"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 7,
+      "chainId": "421614",
+      "txHash": "0x1dfea05b5fd9f687beb39afc56d46404e00e2a86ee7964b24054af36f9f0b9cb",
+      "gasUsed": "37615",
+      "gasUsedForL1": "3169",
+      "effectiveGasPrice": "31246001",
+      "feeWei": "1175318327615"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 8,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338426",
+      "effectiveGasPrice": "31458000",
+      "feeWei": "10646205108000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 8,
+      "chainId": "421614",
+      "txHash": "0x755cc7d6dc09b65a197274b8a34458d43132bf43a430615cff1f95706f844b50",
+      "gasUsed": "459185",
+      "gasUsedForL1": "15039",
+      "effectiveGasPrice": "31202001",
+      "feeWei": "14327490829185"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 8,
+      "chainId": "421614",
+      "txHash": "0x2889162da358787d9e341d87643272afba86979eceded66965fe992feb1695db",
+      "gasUsed": "37620",
+      "gasUsedForL1": "3174",
+      "effectiveGasPrice": "31200001",
+      "feeWei": "1173744037620"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 9,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338330",
+      "effectiveGasPrice": "31342000",
+      "feeWei": "10603938860000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 9,
+      "chainId": "421614",
+      "txHash": "0xfaf6164185ebf8ce5aaaaaedd31c94105996429219a7f270452e130c02ac65a4",
+      "gasUsed": "443727",
+      "gasUsedForL1": "15041",
+      "effectiveGasPrice": "31412001",
+      "feeWei": "13938352967727"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 9,
+      "chainId": "421614",
+      "txHash": "0x367a63bae7d04d36a7ba563d580477adfb387b3966249aa28d809488cd8d9c2b",
+      "gasUsed": "37548",
+      "gasUsedForL1": "3102",
+      "effectiveGasPrice": "31924001",
+      "feeWei": "1198682389548"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 10,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338508",
+      "effectiveGasPrice": "31116000",
+      "feeWei": "10533014928000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 10,
+      "chainId": "421614",
+      "txHash": "0xff468c2f3e77e89fa0da4ccd8c622dccaf01e508f3e19cfc00f1d2a2474393ab",
+      "gasUsed": "451425",
+      "gasUsedForL1": "14966",
+      "effectiveGasPrice": "31462001",
+      "feeWei": "14202733801425"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 10,
+      "chainId": "421614",
+      "txHash": "0xd55f86b50db62f65f2e493597a1dd9c3f9870ff61e7fcb01abd03e739cb81f4f",
+      "gasUsed": "37611",
+      "gasUsedForL1": "3165",
+      "effectiveGasPrice": "31290001",
+      "feeWei": "1176848227611"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 11,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338631",
+      "effectiveGasPrice": "31116000",
+      "feeWei": "10536842196000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 11,
+      "chainId": "421614",
+      "txHash": "0xecffe70ca55b1dc3e222b5c07c406ae9a21590cc762ed5fc4d56104f0ccf8d23",
+      "gasUsed": "443612",
+      "gasUsedForL1": "14914",
+      "effectiveGasPrice": "31390001",
+      "feeWei": "13924981123612"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 11,
+      "chainId": "421614",
+      "txHash": "0xbcd268d5372db728e271437bea6ca7126f574febab0c23240c725082d41c5daf",
+      "gasUsed": "37574",
+      "gasUsedForL1": "3128",
+      "effectiveGasPrice": "31660001",
+      "feeWei": "1189592877574"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 12,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338575",
+      "effectiveGasPrice": "31320000",
+      "feeWei": "10604169000000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 12,
+      "chainId": "421614",
+      "txHash": "0xcf0c0fa49235df39d5acc24979093e350a26a1c8118b46077a79392f7c901a95",
+      "gasUsed": "474587",
+      "gasUsedForL1": "15005",
+      "effectiveGasPrice": "31308001",
+      "feeWei": "14858370270587"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 12,
+      "chainId": "421614",
+      "txHash": "0xd1ee261b4f3875544f960fb51957e88e7ad4d39d8e1e1f4979c7c1ff656339e6",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31116001",
+      "feeWei": "1170864001629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 13,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338458",
+      "effectiveGasPrice": "31298000",
+      "feeWei": "10593058484000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 13,
+      "chainId": "421614",
+      "txHash": "0xda8523e20fe527e8c191cda922360e75784d400e8f83d68edaae18c3efaa64cc",
+      "gasUsed": "443726",
+      "gasUsedForL1": "15036",
+      "effectiveGasPrice": "31172001",
+      "feeWei": "13831827315726"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 13,
+      "chainId": "421614",
+      "txHash": "0x83fe2f3115384daab4f54a99a1e78787fc35a66fa5fcd4df2fb249b07c32f259",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31116001",
+      "feeWei": "1170864001629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 14,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338237",
+      "effectiveGasPrice": "31200000",
+      "feeWei": "10552994400000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 14,
+      "chainId": "421614",
+      "txHash": "0xd4cf07612a7cb8227f6c33c8f0d5799a440c0a10d8a630ff75ad299f98ec386d",
+      "gasUsed": "451470",
+      "gasUsedForL1": "15035",
+      "effectiveGasPrice": "31246001",
+      "feeWei": "14106632071470"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 14,
+      "chainId": "421614",
+      "txHash": "0x46c7eee2ee4b1b1ad6deb85ec1d8b8922ab30bf9fff991857a596aedf848cf71",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31116001",
+      "feeWei": "1170864001629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 15,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338288",
+      "effectiveGasPrice": "31334000",
+      "feeWei": "10599916192000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 15,
+      "chainId": "421614",
+      "txHash": "0xfba6068d6e4bc8d7a9952d1fdae2c0db8a1fef5bcc7333084c8033687eb7d9fd",
+      "gasUsed": "443823",
+      "gasUsedForL1": "15087",
+      "effectiveGasPrice": "31174001",
+      "feeWei": "13835738645823"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 15,
+      "chainId": "421614",
+      "txHash": "0x4701bfdbe4039a1e15567ee3efa4354ab3e9efb233ad69822d574707aeb67b33",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31112001",
+      "feeWei": "1170713485629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 16,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338227",
+      "effectiveGasPrice": "31418000",
+      "feeWei": "10626415886000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 16,
+      "chainId": "421614",
+      "txHash": "0x1e53a66e6e28176f7e1259d02861a5335f8188ae28da9486580e6794cb282d6c",
+      "gasUsed": "459141",
+      "gasUsedForL1": "14957",
+      "effectiveGasPrice": "31118001",
+      "feeWei": "14287550097141"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 16,
+      "chainId": "421614",
+      "txHash": "0x14fa8ab4e2dc3ac6fabfb950352f774d9bb469df8b09cd04e2b78295802a9918",
+      "gasUsed": "37629",
+      "gasUsedForL1": "3183",
+      "effectiveGasPrice": "31112001",
+      "feeWei": "1170713485629"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 17,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "337766",
+      "effectiveGasPrice": "32144000",
+      "feeWei": "10857150304000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 17,
+      "chainId": "421614",
+      "txHash": "0x997f295250cf5e509c031fdff3fe51f15296b253d5d8d5aface1f5df2045e30f",
+      "gasUsed": "443899",
+      "gasUsedForL1": "15137",
+      "effectiveGasPrice": "31320001",
+      "feeWei": "13902917123899"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 17,
+      "chainId": "421614",
+      "txHash": "0xe5621aff63cddaf0e85cbca51c833490971595e26421c64b9909e34fdc522f84",
+      "gasUsed": "37610",
+      "gasUsedForL1": "3164",
+      "effectiveGasPrice": "31298001",
+      "feeWei": "1177117817610"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 18,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338785",
+      "effectiveGasPrice": "31568000",
+      "feeWei": "10694764880000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 18,
+      "chainId": "421614",
+      "txHash": "0x7f24a2be43b9cddac1c5bb05b775bd1fb7c852fbeb2945ebd4d41b2bd64138d2",
+      "gasUsed": "451495",
+      "gasUsedForL1": "15042",
+      "effectiveGasPrice": "31518001",
+      "feeWei": "14230219861495"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 18,
+      "chainId": "421614",
+      "txHash": "0x965c2cb45b16cc5eaf7ff96a95252ca6ec86107175481fd95da720932aa83a68",
+      "gasUsed": "37614",
+      "gasUsedForL1": "3168",
+      "effectiveGasPrice": "31258001",
+      "feeWei": "1175738449614"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 19,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338600",
+      "effectiveGasPrice": "31112000",
+      "feeWei": "10534523200000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 19,
+      "chainId": "421614",
+      "txHash": "0x665bc0e20f7ad6b4c31d53d726aa2d78a78c286a05e66cb8fbbc8aff2cf6f57b",
+      "gasUsed": "443577",
+      "gasUsedForL1": "14803",
+      "effectiveGasPrice": "31698001",
+      "feeWei": "14060504189577"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 19,
+      "chainId": "421614",
+      "txHash": "0x09330da74a54cd1b228d51fc6cf5a74c9ee160d3f3d31d7729de29c560b0c722",
+      "gasUsed": "37603",
+      "gasUsedForL1": "3157",
+      "effectiveGasPrice": "31370001",
+      "feeWei": "1179606147603"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 20,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338632",
+      "effectiveGasPrice": "31112000",
+      "feeWei": "10535518784000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 20,
+      "chainId": "421614",
+      "txHash": "0xcade62f41dc0d7391c36fdc23a559fa853da409f311c3222e1bcb97c818cfaa5",
+      "gasUsed": "466735",
+      "gasUsedForL1": "14864",
+      "effectiveGasPrice": "31496001",
+      "feeWei": "14700286026735"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 20,
+      "chainId": "421614",
+      "txHash": "0xf25e0086e7f6e56c372cbdcd7e66797f7b39b33bb1e38c5b9870eadc74ceaa3f",
+      "gasUsed": "37594",
+      "gasUsedForL1": "3148",
+      "effectiveGasPrice": "31462001",
+      "feeWei": "1182782465594"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 21,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338597",
+      "effectiveGasPrice": "31202000",
+      "feeWei": "10564903594000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 21,
+      "chainId": "421614",
+      "txHash": "0x1c9a02fd7f3baedda5e3d32504b9ab54d5f4659dfb4c083d2f73dcdf925c2251",
+      "gasUsed": "443845",
+      "gasUsedForL1": "15065",
+      "effectiveGasPrice": "31112001",
+      "feeWei": "13808906083845"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 21,
+      "chainId": "421614",
+      "txHash": "0x078d6ba731a8a93b9a7a2518e3ef74622e1a6dfdf01d44290cb2fa862f775560",
+      "gasUsed": "37570",
+      "gasUsedForL1": "3124",
+      "effectiveGasPrice": "31704001",
+      "feeWei": "1191119317570"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 22,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338388",
+      "effectiveGasPrice": "31312000",
+      "feeWei": "10595605056000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 22,
+      "chainId": "421614",
+      "txHash": "0x82985f878994b14bc197d061bf0e3ee4d897c2bc01f13a88c372fa0fdefc08ad",
+      "gasUsed": "451442",
+      "gasUsedForL1": "14995",
+      "effectiveGasPrice": "31112001",
+      "feeWei": "14045263955442"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 22,
+      "chainId": "421614",
+      "txHash": "0xf994a73f41b5fdbe9c945c347fe00d93afecabea823f5c42ac57877df0eef937",
+      "gasUsed": "37596",
+      "gasUsedForL1": "3150",
+      "effectiveGasPrice": "31442001",
+      "feeWei": "1182093469596"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 23,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338161",
+      "effectiveGasPrice": "31278000",
+      "feeWei": "10576999758000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 23,
+      "chainId": "421614",
+      "txHash": "0x5a3e085e18b458ae6ebbc146e34ae6c8cf46be4074e499e3555ffef03bc5332f",
+      "gasUsed": "444006",
+      "gasUsedForL1": "15266",
+      "effectiveGasPrice": "31234001",
+      "feeWei": "13868083848006"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 23,
+      "chainId": "421614",
+      "txHash": "0x9ccb786c9efd54d865df49cc506d17679bf1d52de3dbbe2f185cbda70924536b",
+      "gasUsed": "37557",
+      "gasUsedForL1": "3111",
+      "effectiveGasPrice": "31836001",
+      "feeWei": "1195664689557"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 24,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338493",
+      "effectiveGasPrice": "31962000",
+      "feeWei": "10818913266000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 24,
+      "chainId": "421614",
+      "txHash": "0x5fac5f348558d2407d1ce118c152a865d21577600ab9cba40a16452dfdfa81af",
+      "gasUsed": "459028",
+      "gasUsedForL1": "14904",
+      "effectiveGasPrice": "31412001",
+      "feeWei": "14418987995028"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 24,
+      "chainId": "421614",
+      "txHash": "0xa225be5409c75768bdedd3b1401084d4f03a291e8b0d3efb76bc172111e80285",
+      "gasUsed": "37606",
+      "gasUsedForL1": "3160",
+      "effectiveGasPrice": "31336001",
+      "feeWei": "1178421653606"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 25,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338598",
+      "effectiveGasPrice": "31112000",
+      "feeWei": "10534460976000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 25,
+      "chainId": "421614",
+      "txHash": "0xb452db487f70eb5aae89279abeda00df52642da2aa0fc0dacce802cdf894af81",
+      "gasUsed": "443666",
+      "gasUsedForL1": "14916",
+      "effectiveGasPrice": "31458001",
+      "feeWei": "13956845471666"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 25,
+      "chainId": "421614",
+      "txHash": "0x086cdbea32564b3721270007ae651c98a34788c686cf3491060b5014e436c842",
+      "gasUsed": "37606",
+      "gasUsedForL1": "3160",
+      "effectiveGasPrice": "31334001",
+      "feeWei": "1178346441606"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 26,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338652",
+      "effectiveGasPrice": "31112000",
+      "feeWei": "10536141024000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 26,
+      "chainId": "421614",
+      "txHash": "0x47ed223c79c71b787cd181b1e65e4ea15872f0e5b4f0ab350d9d6dae0bb56ec2",
+      "gasUsed": "451228",
+      "gasUsedForL1": "14763",
+      "effectiveGasPrice": "31784001",
+      "feeWei": "14341831203228"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 26,
+      "chainId": "421614",
+      "txHash": "0xd5822c6eb7850b9e407d99767d0827f8dd676bb0c53f69444e657c1d10ee1b52",
+      "gasUsed": "37589",
+      "gasUsedForL1": "3143",
+      "effectiveGasPrice": "31506001",
+      "feeWei": "1184279071589"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 27,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338686",
+      "effectiveGasPrice": "31136000",
+      "feeWei": "10545327296000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 27,
+      "chainId": "421614",
+      "txHash": "0xa87ade7a20308a9f8c0192c17e0e9db74c0d89cbeb0af0482484e1b51daf504c",
+      "gasUsed": "443749",
+      "gasUsedForL1": "15047",
+      "effectiveGasPrice": "31112001",
+      "feeWei": "13805919331749"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 27,
+      "chainId": "421614",
+      "txHash": "0x6cf6b0e1552593f39375a78469ad233598368849cc24fc599f694042b742b2cc",
+      "gasUsed": "37583",
+      "gasUsedForL1": "3137",
+      "effectiveGasPrice": "31572001",
+      "feeWei": "1186570513583"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 28,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338461",
+      "effectiveGasPrice": "31196000",
+      "feeWei": "10558629356000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 28,
+      "chainId": "421614",
+      "txHash": "0x8acb6c8ecb79f147406fc3c5159328c0eae01b87e1fd6f630239bc732143e3a6",
+      "gasUsed": "490182",
+      "gasUsedForL1": "15152",
+      "effectiveGasPrice": "31112001",
+      "feeWei": "15250542874182"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 28,
+      "chainId": "421614",
+      "txHash": "0x7266fab1eac2590b3bf85d58c614edbdac2d390d0be1a72aa41c2816cab0f649",
+      "gasUsed": "37554",
+      "gasUsedForL1": "3108",
+      "effectiveGasPrice": "31868001",
+      "feeWei": "1196770909554"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 29,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338586",
+      "effectiveGasPrice": "31238000",
+      "feeWei": "10576749468000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 29,
+      "chainId": "421614",
+      "txHash": "0x0c53bd5d5b9d65a46936f9b14370e335efdc69134642a4b26c1fe215806f4f92",
+      "gasUsed": "443726",
+      "gasUsedForL1": "15014",
+      "effectiveGasPrice": "31108001",
+      "feeWei": "13803428851726"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 29,
+      "chainId": "421614",
+      "txHash": "0xb3cdc1400c31ab16fac8e8ac29493a195d0082bf25f645d4027fda9c1c8e86ed",
+      "gasUsed": "37601",
+      "gasUsedForL1": "3155",
+      "effectiveGasPrice": "31390001",
+      "feeWei": "1180295427601"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 30,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338504",
+      "effectiveGasPrice": "31286000",
+      "feeWei": "10590436144000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 30,
+      "chainId": "421614",
+      "txHash": "0xe1a233fb1904eb6b90afc6f855fa4e27acff53322a7ff48c01a38319f9d6841c",
+      "gasUsed": "451387",
+      "gasUsedForL1": "14966",
+      "effectiveGasPrice": "31534001",
+      "feeWei": "14234038109387"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 30,
+      "chainId": "421614",
+      "txHash": "0x8b8adc3fff8a8d73cb0c9376a2826f2a1244c6094d99e95d6009cd4d5b48e900",
+      "gasUsed": "37626",
+      "gasUsedForL1": "3180",
+      "effectiveGasPrice": "31140001",
+      "feeWei": "1171673677626"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 31,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338657",
+      "effectiveGasPrice": "31108000",
+      "feeWei": "10534941956000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 31,
+      "chainId": "421614",
+      "txHash": "0xdfd66557b2474d21b604be04269607e7051bac249666f2d19fb424d58daf498d",
+      "gasUsed": "443416",
+      "gasUsedForL1": "14688",
+      "effectiveGasPrice": "32094001",
+      "feeWei": "14230993547416"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 31,
+      "chainId": "421614",
+      "txHash": "0xb80eee5b91e7e1de31c98c647e8c6b834e6e57232b52de62f39ac2413fecb515",
+      "gasUsed": "37609",
+      "gasUsedForL1": "3163",
+      "effectiveGasPrice": "31306001",
+      "feeWei": "1177387391609"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 32,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338327",
+      "effectiveGasPrice": "31238000",
+      "feeWei": "10568658826000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 32,
+      "chainId": "421614",
+      "txHash": "0xd30f0a2973b341a8fe27162fcfc6688459b947289585a43f4905b8cb84b540e5",
+      "gasUsed": "459057",
+      "gasUsedForL1": "14927",
+      "effectiveGasPrice": "31108001",
+      "feeWei": "14280345615057"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 32,
+      "chainId": "421614",
+      "txHash": "0x0b2717ceb126bad866401458c029676db662e347e213d44b21093e9b268e7661",
+      "gasUsed": "37603",
+      "gasUsedForL1": "3157",
+      "effectiveGasPrice": "31370001",
+      "feeWei": "1179606147603"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 33,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338535",
+      "effectiveGasPrice": "31236000",
+      "feeWei": "10574479260000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 33,
+      "chainId": "421614",
+      "txHash": "0xd9f54ed1a30f84ed297e04cfaf0363cde859239cdbbe48cb81639fc985b414ee",
+      "gasUsed": "443865",
+      "gasUsedForL1": "15119",
+      "effectiveGasPrice": "31108001",
+      "feeWei": "13807752863865"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 33,
+      "chainId": "421614",
+      "txHash": "0x2ee1771c48bfa0519d3aa79e335e7c4928b04ac1ce42da0bcbf0b42bf392dd5c",
+      "gasUsed": "37626",
+      "gasUsedForL1": "3180",
+      "effectiveGasPrice": "31146001",
+      "feeWei": "1171899433626"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 34,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338307",
+      "effectiveGasPrice": "31502000",
+      "feeWei": "10657347114000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 34,
+      "chainId": "421614",
+      "txHash": "0x673bdc6fa812e6b190b102d4881d87376e256fadea313f2f018f5b52c0789b73",
+      "gasUsed": "451247",
+      "gasUsedForL1": "14778",
+      "effectiveGasPrice": "31386001",
+      "feeWei": "14162838793247"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 34,
+      "chainId": "421614",
+      "txHash": "0x094a251edd4a17eb07c93581b6f66f327172fe8303b154682e24e3e628dbcfc8",
+      "gasUsed": "37615",
+      "gasUsedForL1": "3169",
+      "effectiveGasPrice": "31246001",
+      "feeWei": "1175318327615"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 35,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338450",
+      "effectiveGasPrice": "31522000",
+      "feeWei": "10668620900000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 35,
+      "chainId": "421614",
+      "txHash": "0x1e60b2f50886307879f769f7644965b26acb55a7f5bb7fabb3950bd5f2e10618",
+      "gasUsed": "443823",
+      "gasUsedForL1": "15099",
+      "effectiveGasPrice": "31400001",
+      "feeWei": "13936042643823"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 35,
+      "chainId": "421614",
+      "txHash": "0x700376252faf84c0c59e3f9f3480c2ae6c38ba6202b54bb1c21c22a1fc6ce6e8",
+      "gasUsed": "37624",
+      "gasUsedForL1": "3178",
+      "effectiveGasPrice": "31164001",
+      "feeWei": "1172514373624"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 36,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "337824",
+      "effectiveGasPrice": "31880000",
+      "feeWei": "10769829120000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 36,
+      "chainId": "421614",
+      "txHash": "0x70adcf13021a65b8f79ad04103328010f0d8d09bc626d7df43a0a6d543e45d78",
+      "gasUsed": "466894",
+      "gasUsedForL1": "15025",
+      "effectiveGasPrice": "31302001",
+      "feeWei": "14614716454894"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 36,
+      "chainId": "421614",
+      "txHash": "0x7aebfdfbe810ca616983ac3dddaf8a132640297f90892b39f669cb1f064800d6",
+      "gasUsed": "37625",
+      "gasUsedForL1": "3179",
+      "effectiveGasPrice": "31150001",
+      "feeWei": "1172018787625"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 37,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338481",
+      "effectiveGasPrice": "31314000",
+      "feeWei": "10599194034000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 37,
+      "chainId": "421614",
+      "txHash": "0x5c2fb0fccbaad1b97c082a1be49089e01aea9af273f117a26889167357f912bd",
+      "gasUsed": "443723",
+      "gasUsedForL1": "15045",
+      "effectiveGasPrice": "31404001",
+      "feeWei": "13934677535723"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 37,
+      "chainId": "421614",
+      "txHash": "0x08528ba3778449d1cd2501c888a5251e579e79345be7c896eae759932bd77104",
+      "gasUsed": "37622",
+      "gasUsedForL1": "3176",
+      "effectiveGasPrice": "31176001",
+      "feeWei": "1172903509622"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 38,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338387",
+      "effectiveGasPrice": "31452000",
+      "feeWei": "10642947924000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 38,
+      "chainId": "421614",
+      "txHash": "0x55dfd7dcbf4e0e3f37b38c84fdb927cfb3857ac665a32887ea59181785642e1b",
+      "gasUsed": "451229",
+      "gasUsedForL1": "14756",
+      "effectiveGasPrice": "31982001",
+      "feeWei": "14431206329229"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 38,
+      "chainId": "421614",
+      "txHash": "0x79801fab1bf11b07958f9eab30efc673db0fc12c7eb6724b224245b89963b6f0",
+      "gasUsed": "37617",
+      "gasUsedForL1": "3171",
+      "effectiveGasPrice": "31230001",
+      "feeWei": "1174778947617"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 39,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338724",
+      "effectiveGasPrice": "31670000",
+      "feeWei": "10727389080000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 39,
+      "chainId": "421614",
+      "txHash": "0x940b5d69c37c0e30028600fa21346c809b61db995672454cbb8d348ec3c62136",
+      "gasUsed": "443736",
+      "gasUsedForL1": "15008",
+      "effectiveGasPrice": "31374001",
+      "feeWei": "13921773707736"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 39,
+      "chainId": "421614",
+      "txHash": "0x44c7f01e11f420a14249fe1f0f18f950bb67570b972030f0df577ae3398f153d",
+      "gasUsed": "37620",
+      "gasUsedForL1": "3174",
+      "effectiveGasPrice": "31202001",
+      "feeWei": "1173819277620"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 40,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338311",
+      "effectiveGasPrice": "31544000",
+      "feeWei": "10671682184000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 40,
+      "chainId": "421614",
+      "txHash": "0x9e4e9827d1a4d82337bbf914e46c66381ea79ae1d7d770dc2fcdb3d298f77738",
+      "gasUsed": "458963",
+      "gasUsedForL1": "14837",
+      "effectiveGasPrice": "31516001",
+      "feeWei": "14464678366963"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 40,
+      "chainId": "421614",
+      "txHash": "0x3a47f9d6b56b34e803b8be751d3300bf3e89ce844fa0eeed2e878f0de9c33855",
+      "gasUsed": "37618",
+      "gasUsedForL1": "3172",
+      "effectiveGasPrice": "31218001",
+      "feeWei": "1174358761618"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 41,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "337797",
+      "effectiveGasPrice": "31908000",
+      "feeWei": "10778426676000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 41,
+      "chainId": "421614",
+      "txHash": "0xda0caeec1cb901b0dc55573f58819139ff1aeb7054e9e7d6a767f13ea6bc7aab",
+      "gasUsed": "443443",
+      "gasUsedForL1": "14803",
+      "effectiveGasPrice": "31370001",
+      "feeWei": "13910807353443"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 41,
+      "chainId": "421614",
+      "txHash": "0xb21c6b23634ecdf67bf274ca0d52e4ed48d460148db6535b3181aaaed0ad0cc4",
+      "gasUsed": "37613",
+      "gasUsedForL1": "3167",
+      "effectiveGasPrice": "31274001",
+      "feeWei": "1176308999613"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 42,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338418",
+      "effectiveGasPrice": "31314000",
+      "feeWei": "10597221252000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 42,
+      "chainId": "421614",
+      "txHash": "0x70d9a970d09c0dbf50196ee369ca2d10b1b64a55063f5d83e8fe7f4b2376e3c0",
+      "gasUsed": "451402",
+      "gasUsedForL1": "14973",
+      "effectiveGasPrice": "31302001",
+      "feeWei": "14129785855402"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 42,
+      "chainId": "421614",
+      "txHash": "0x1203d36c916dcd6c4e8e9223edf5e66a3d8a7dbee796a27f5b6ccf49bb333ce5",
+      "gasUsed": "37578",
+      "gasUsedForL1": "3132",
+      "effectiveGasPrice": "31622001",
+      "feeWei": "1188291553578"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 43,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338628",
+      "effectiveGasPrice": "31728000",
+      "feeWei": "10743989184000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 43,
+      "chainId": "421614",
+      "txHash": "0xae7a56f0bd2bf826ff0e6d9e65ede444e719acabacc8e5bcb751171640de564d",
+      "gasUsed": "443322",
+      "gasUsedForL1": "14590",
+      "effectiveGasPrice": "32088001",
+      "feeWei": "14225316779322"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 43,
+      "chainId": "421614",
+      "txHash": "0xd9ffe047aaf06b5458a1c89a85048b16e2cce4f8258ee2745e1f55ceb9be2bf8",
+      "gasUsed": "37603",
+      "gasUsedForL1": "3157",
+      "effectiveGasPrice": "31370001",
+      "feeWei": "1179606147603"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 44,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338641",
+      "effectiveGasPrice": "31108000",
+      "feeWei": "10534444228000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 44,
+      "chainId": "421614",
+      "txHash": "0x84849c0a9d423807ad2e13a05aade403ae3efdf94ef51d3673e3e526336ffdf2",
+      "gasUsed": "474638",
+      "gasUsedForL1": "15046",
+      "effectiveGasPrice": "31402001",
+      "feeWei": "14904582950638"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 44,
+      "chainId": "421614",
+      "txHash": "0xb62a211598566fbc94d231953d6526907bbc12ceaa2e0461c791b49247c4c2ce",
+      "gasUsed": "37579",
+      "gasUsedForL1": "3133",
+      "effectiveGasPrice": "31610001",
+      "feeWei": "1187872227579"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 45,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338789",
+      "effectiveGasPrice": "31228000",
+      "feeWei": "10579702892000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 45,
+      "chainId": "421614",
+      "txHash": "0x3d8223763a5db43a7b732eac5f773921242f9b668f4ac3e91c0b63f4c22c1885",
+      "gasUsed": "443873",
+      "gasUsedForL1": "15101",
+      "effectiveGasPrice": "31108001",
+      "feeWei": "13808001727873"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 45,
+      "chainId": "421614",
+      "txHash": "0xb274515e9dfc74797901344232deec8607e1c17c741150ef954849f6ae1ebeff",
+      "gasUsed": "37540",
+      "gasUsedForL1": "3094",
+      "effectiveGasPrice": "32010001",
+      "feeWei": "1201655437540"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 46,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338728",
+      "effectiveGasPrice": "31108000",
+      "feeWei": "10537150624000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 46,
+      "chainId": "421614",
+      "txHash": "0x97e44a7f3a0862230cc2bb1860eeb8627a54d251d5b40a841c39bf521727fe1a",
+      "gasUsed": "451582",
+      "gasUsedForL1": "15101",
+      "effectiveGasPrice": "31108001",
+      "feeWei": "14047813307582"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 46,
+      "chainId": "421614",
+      "txHash": "0x56a172bd13b8d917dba56ee530f6d5cae6af9de4665f00ecf74bd8b2686ccc10",
+      "gasUsed": "37589",
+      "gasUsedForL1": "3143",
+      "effectiveGasPrice": "31510001",
+      "feeWei": "1184429427589"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 47,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338545",
+      "effectiveGasPrice": "31204000",
+      "feeWei": "10563958180000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 47,
+      "chainId": "421614",
+      "txHash": "0x970b60ebb412605c379506012ff9bc6fbbb99a3d77f531a32a1ebfab65b816fa",
+      "gasUsed": "443840",
+      "gasUsedForL1": "15154",
+      "effectiveGasPrice": "31108001",
+      "feeWei": "13806975163840"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 47,
+      "chainId": "421614",
+      "txHash": "0x8ba5b4515375588a5f93de5ae2c93acf56955040176388379cecc9ae072d95e9",
+      "gasUsed": "37601",
+      "gasUsedForL1": "3155",
+      "effectiveGasPrice": "31390001",
+      "feeWei": "1180295427601"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 48,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338576",
+      "effectiveGasPrice": "31174000",
+      "feeWei": "10554768224000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 48,
+      "chainId": "421614",
+      "txHash": "0xea55c41f3a8c0694ab725fd56723180cbbf0d0a87ece02d31fece86d434acf5d",
+      "gasUsed": "459310",
+      "gasUsedForL1": "15206",
+      "effectiveGasPrice": "31108001",
+      "feeWei": "14288215939310"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 48,
+      "chainId": "421614",
+      "txHash": "0x71bb456101010f9498e28147935f82a1674dcfd685f23831de879e9e9aed923a",
+      "gasUsed": "37588",
+      "gasUsedForL1": "3142",
+      "effectiveGasPrice": "31518001",
+      "feeWei": "1184698621588"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "iteration": 49,
+      "chainId": "421614",
+      "txHash": "-",
+      "gasUsed": "338669",
+      "effectiveGasPrice": "31146000",
+      "feeWei": "10548184674000",
+      "notes": "Real BBS verification (EIP-2537), L=8, R=5"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "iteration": 49,
+      "chainId": "421614",
+      "txHash": "0xc744974136f6f0884b49c183dd394c2dc594826396c353e4aa38431d824c5c7d",
+      "gasUsed": "443801",
+      "gasUsedForL1": "15041",
+      "effectiveGasPrice": "31270001",
+      "feeWei": "13877657713801"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "iteration": 49,
+      "chainId": "421614",
+      "txHash": "0x1576bd507f0a86ce0bbd788e745e2dc27004e2aad3936320ac2167b2768a8e68",
+      "gasUsed": "37630",
+      "gasUsedForL1": "3184",
+      "effectiveGasPrice": "31106001",
+      "feeWei": "1170518817630"
+    }
+  ],
+  "summary": [
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "verifyProof (estimateGas)",
+      "samples": 50,
+      "avgGas": "338459",
+      "medianGas": "338506",
+      "p95Gas": "338728",
+      "avgFeeWei": "10611257403400",
+      "avgFeeEth": "0.0000106112574034"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "mintBound",
+      "samples": 50,
+      "avgGas": "451953",
+      "medianGas": "447617",
+      "p95Gas": "474638",
+      "avgFeeWei": "14167100052153",
+      "avgFeeEth": "0.000014167100052153"
+    },
+    {
+      "path": "bbs-bound-real-verifier-arb",
+      "operation": "transfer",
+      "samples": 50,
+      "avgGas": "37946",
+      "medianGas": "37612",
+      "p95Gas": "37629",
+      "avgFeeWei": "1189907672066",
+      "avgFeeEth": "0.000001189907672066"
+    }
+  ]
+}
