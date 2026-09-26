@@ -212,6 +212,8 @@ How to read these numbers:
 - **Mint gas is higher than local** (L2 execution 436,971 vs 409,547). The real `ArbSys.sendTxToL1` costs more than the local mock, and so does the first mint to a new balance (iteration 0: 493,441 gas).
 - **One-time setup.** Verifier deployment was 2,555,503 gas (≈ $0.16), the ledger 1,755,413 gas (≈ $0.11). On Sepolia L1, the `GTokenAnchorArb` deployment was 667,709 gas and `setConfig` 46,356 gas.
 - **Deployments.** Verifier `0x7DF47f2b23c96570858cDBD2bbb886486198276F`, ledger `0x75915E9747562cfbe37f8164100b23CECeF33a3d` (Arbitrum Sepolia), L1 anchor `0x8BDC80D280e1768B583a0838C0c41c819E43039D` (Sepolia). All 50 L2→L1 anchor messages are queued for that anchor and are recorded with their `msgNum` in the JSON.
+- **L1 anchoring, end to end.** After the Arbitrum Sepolia challenge window, message #0 (`msgNum` 117923) was executed through the outbox on Sepolia. The claim `0xa93d…837f` is now anchored on L1 (`docs/bench_bbs_bound_arb_sepolia_outbox_execute.json`). The L1 execution used **214,331 gas**, essentially the same as the April report's 215,057, so the anchoring cost does not depend on the verifier. The fee was 0.000528 ETH (≈ $1.09) at 2.47 gwei, against ≈ $0.67 in April at a lower L1 gas price. That per-claim L1 cost is still the main reason to batch anchors.
+- **Admin roles.** The admin role on both the ledger and the L1 anchor was moved to the rotated deployer wallet after the original key was exposed. The old key holds no role on either contract.
 
 ## 7. Reproduction
 
