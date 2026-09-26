@@ -6,7 +6,6 @@ import { blsSign, generateBls12381G2KeyPair } from "@mattrglobal/bbs-signatures"
 type BbsVcRecord = {
   issuer: {
     publicKeyHex: string;
-    secretKeyHex: string;
   };
   vc: {
     id: string;
@@ -75,9 +74,10 @@ async function main() {
   const signature = await blsSign({ keyPair, messages });
 
   const out: BbsVcRecord = {
+    // The issuer secret key is deliberately not persisted: the record is committed to git,
+    // and presentations only need the public key and the signature.
     issuer: {
       publicKeyHex: toHex(keyPair.publicKey),
-      secretKeyHex: toHex(keyPair.secretKey),
     },
     vc,
     credentialIdHash,
