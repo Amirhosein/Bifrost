@@ -1,7 +1,6 @@
 {
   "issuer": {
-    "publicKeyHex": "0xa6149b2473c9b1087c91d59853888f71fac9b1debf05dbdf6e4770af006d14fdfb0a9e5afb9863b43136a1721b7a391e0b083f0ee12f06d786c356972f702375eacf1761a5fae84995f3796429ed9679bb47f45f8d43fbb0b4930519dbe91b39",
-    "secretKeyHex": "0x***REMOVED***"
+    "publicKeyHex": "0xa6149b2473c9b1087c91d59853888f71fac9b1debf05dbdf6e4770af006d14fdfb0a9e5afb9863b43136a1721b7a391e0b083f0ee12f06d786c356972f702375eacf1761a5fae84995f3796429ed9679bb47f45f8d43fbb0b4930519dbe91b39"
   },
   "vc": {
     "id": "urn:uuid:green-credit-vc-1",

@@ -14,13 +14,17 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Environment / secrets
+# Environment / secrets (real values live only in .env; see `npm run check:secrets`)
 .env
 .env.*
 !.env.example
+*.secret.json
+*.pem
+*.key
+keystore/
 
 # Foundry
-lib/
+/lib/
 broadcast/
 
 # Rust / Stylus

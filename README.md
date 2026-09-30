@@ -29,6 +29,21 @@ The project also contains legacy/local demo paths and OP-Stack style anchor cont
 
 So this repo is a strong system-level and cost-baseline implementation, while full production cryptographic on-chain verification remains the next milestone.
 
+### New: bound BBS minting with a real on-chain verifier
+
+`BbsBls12381Verifier` verifies real BBS proofs (IETF draft-06, BLS12-381-SHA-256) on-chain using the EIP-2537
+precompiles (live on Arbitrum since ArbOS 51) and matches the IETF test vectors. `GTokenL2BbsBoundArb` mints from
+proofs bound to one mint action (recipient, chain, contract, amount, nullifier, deadline) and credentials designated
+by the issuer for one ledger. This closes mempool front-running, cross-ledger replay, cross-chain double issuance,
+disclosure-set double minting and dedup collisions. The attack test suite reproduces each of these against the
+paper's protocol. Design, security argument and gas results: [docs/bbs_bound_minting.md](docs/bbs_bound_minting.md).
+
+```bash
+npm run test:bbs:bound          # IETF vectors + mint tests + attack matrix
+npm run bench:bbs:bound:local   # docs/bench_bbs_bound_local.json
+npm run demo:bbs:bound          # end-to-end walkthrough
+```
+
 ## Architecture
 
 ### Layers and responsibilities
@@ -132,6 +147,14 @@ Common optional variables:
 5. `BENCH_REPEAT_COUNT` and repeat-path overrides
 
 Reference: [docs/bbs_l2_runbook.md](docs/bbs_l2_runbook.md)
+
+### Secrets and credentials
+
+1. Real keys and RPC URLs go only in `.env`, which is git-ignored. `.env.example` holds placeholders only.
+2. Use a dedicated testnet-only wallet for `DEPLOYER_PRIVATE_KEY`, never one that holds mainnet funds.
+3. `npm install` enables a pre-commit hook (`.githooks/pre-commit`) that blocks commits containing private keys, RPC URLs with API keys, secret-key JSON fields or tracked `.env` files. To scan the whole tree, run `npm run check:secrets`.
+4. Scripts write only the RPC host to reports (`scripts/lib/redact.ts`), never the full URL. They never write BBS issuer secret keys to disk. The Stylus deploy passes the key to `cargo stylus` through an owner-only temporary file, not the command line.
+5. If a credential is ever committed, treat it as compromised: rotate it first, then remove it from history.
 
 ## Main workflows
 

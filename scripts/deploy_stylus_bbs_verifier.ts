@@ -1,9 +1,12 @@
 /* eslint-disable no-console */
 import "dotenv/config";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { ethers } from "ethers";
+
+import { redactRpcUrl } from "./lib/redact";
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -34,18 +37,24 @@ async function main() {
   const cargoBin = process.env.CARGO_BIN || path.join(process.env.HOME || "", ".cargo", "bin", "cargo");
 
   console.log("Deploying Stylus verifier from:", stylusDir);
-  console.log("RPC:", rpc);
+  console.log("RPC host:", redactRpcUrl(rpc));
   console.log("Owner:", owner);
   console.log("Max fee (gwei):", maxFeeGwei);
   console.log("Cargo:", cargoBin);
+
+  // Hand the key to cargo-stylus through an owner-only temp file instead of argv,
+  // where it would be visible to every local process (ps) and in shell history.
+  const keyDir = fs.mkdtempSync(path.join(os.tmpdir(), "stylus-deploy-"));
+  const keyPath = path.join(keyDir, "key");
+  fs.writeFileSync(keyPath, deployerPk.replace(/^0x/, ""), { mode: 0o600 });
 
   const args = [
     "stylus",
     "deploy",
     "--endpoint",
     rpc,
-    "--private-key",
-    deployerPk,
+    "--private-key-path",
+    keyPath,
     "--max-fee-per-gas-gwei",
     maxFeeGwei,
     "--no-verify",
@@ -53,15 +62,20 @@ async function main() {
     owner,
   ];
 
-  const run = spawnSync(cargoBin, args, {
-    cwd: stylusDir,
-    stdio: "pipe",
-    encoding: "utf8",
-    env: {
-      ...process.env,
-      PATH: `${path.dirname(cargoBin)}:${process.env.PATH || ""}`,
-    },
-  });
+  let run: ReturnType<typeof spawnSync>;
+  try {
+    run = spawnSync(cargoBin, args, {
+      cwd: stylusDir,
+      stdio: "pipe",
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${path.dirname(cargoBin)}:${process.env.PATH || ""}`,
+      },
+    });
+  } finally {
+    fs.rmSync(keyDir, { recursive: true, force: true });
+  }
 
   const output = `${run.stdout || ""}\n${run.stderr || ""}`;
   const outputNoAnsi = output.replace(/\x1b\[[0-9;]*m/g, "");
@@ -86,7 +100,7 @@ async function main() {
       {
         generatedAt: new Date().toISOString(),
         network: "arbitrum-sepolia",
-        rpc,
+        rpcHost: redactRpcUrl(rpc),
         deployer: deployer.address,
         owner,
         verifier: deployed,
