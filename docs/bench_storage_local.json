@@ -1,0 +1,258 @@
+{
+  "generatedAt": "2026-10-08T18:32:10.564Z",
+  "network": "hardhat",
+  "hardfork": "prague",
+  "assumptions": {
+    "ethUsd": 2050,
+    "l1Gwei": [
+      0.5,
+      2,
+      10
+    ],
+    "arbitrumEffectiveGwei": 0.0313,
+    "scale": 1000000
+  },
+  "sampleSizes": {
+    "binaryCredentialBytes": 377,
+    "jsonCredentialBytes": 1240,
+    "encryptedOverheadBytes": 28,
+    "cidV1Bytes": 36
+  },
+  "sampleCids": {
+    "binary credential": "bafkreidg3ntry4fdvglemdkccvwxralnwtszvyxz3wvsuou57bbwz73f4q",
+    "JSON credential": "bafkreigt7ekdamyhy3r5qxpwoisj43lvxw4afo523r5azzfk4ceiplgqbu"
+  },
+  "rows": [
+    {
+      "path": "tag",
+      "operation": "mapping(bytes32 => bool)",
+      "gasUsed": "44001",
+      "calldataBytes": 36,
+      "dataBytes": 32,
+      "usdL1@0.5gwei": 0.0451,
+      "usdL1@2gwei": 0.1804,
+      "usdL1@10gwei": 0.902,
+      "usdArbitrum": 0.00282,
+      "usdPerMillionL1At2gwei": 180404
+    },
+    {
+      "path": "tag",
+      "operation": "packed record (chain, registrant, time)",
+      "gasUsed": "44566",
+      "calldataBytes": 68,
+      "dataBytes": 32,
+      "usdL1@0.5gwei": 0.0457,
+      "usdL1@2gwei": 0.1827,
+      "usdL1@10gwei": 0.9136,
+      "usdArbitrum": 0.00286,
+      "usdPerMillionL1At2gwei": 182721
+    },
+    {
+      "path": "credential on-chain",
+      "operation": "contract storage, binary credential",
+      "gasUsed": "315067",
+      "calldataBytes": 484,
+      "dataBytes": 377,
+      "usdL1@0.5gwei": 0.3229,
+      "usdL1@2gwei": 1.2918,
+      "usdL1@10gwei": 6.4589,
+      "usdArbitrum": 0.02022,
+      "usdPerMillionL1At2gwei": 1291775
+    },
+    {
+      "path": "credential on-chain",
+      "operation": "SSTORE2 code, binary credential",
+      "gasUsed": "158743",
+      "calldataBytes": 484,
+      "dataBytes": 377,
+      "usdL1@0.5gwei": 0.1627,
+      "usdL1@2gwei": 0.6508,
+      "usdL1@10gwei": 3.2542,
+      "usdArbitrum": 0.01019,
+      "usdPerMillionL1At2gwei": 650846
+    },
+    {
+      "path": "credential on-chain",
+      "operation": "event log, binary credential",
+      "gasUsed": "32920",
+      "calldataBytes": 484,
+      "dataBytes": 377,
+      "notes": "contracts cannot read it back",
+      "usdL1@0.5gwei": 0.0337,
+      "usdL1@2gwei": 0.135,
+      "usdL1@10gwei": 0.6749,
+      "usdArbitrum": 0.00211,
+      "usdPerMillionL1At2gwei": 134972
+    },
+    {
+      "path": "IPFS pointer",
+      "operation": "32-byte digest, binary credential",
+      "gasUsed": "44581",
+      "calldataBytes": 68,
+      "dataBytes": 32,
+      "notes": "encrypted copy off-chain: 405 bytes",
+      "usdL1@0.5gwei": 0.0457,
+      "usdL1@2gwei": 0.1828,
+      "usdL1@10gwei": 0.9139,
+      "usdArbitrum": 0.00286,
+      "usdPerMillionL1At2gwei": 182782
+    },
+    {
+      "path": "IPFS pointer",
+      "operation": "full CIDv1 bytes, binary credential",
+      "gasUsed": "89971",
+      "calldataBytes": 164,
+      "dataBytes": 36,
+      "notes": "encrypted copy off-chain: 405 bytes",
+      "usdL1@0.5gwei": 0.0922,
+      "usdL1@2gwei": 0.3689,
+      "usdL1@10gwei": 1.8444,
+      "usdArbitrum": 0.00577,
+      "usdPerMillionL1At2gwei": 368881
+    },
+    {
+      "path": "read",
+      "operation": "contract storage, binary credential",
+      "gasUsed": "51464",
+      "dataBytes": 377,
+      "notes": "estimateGas, includes 21,000 base",
+      "usdL1@0.5gwei": 0.0528,
+      "usdL1@2gwei": 0.211,
+      "usdL1@10gwei": 1.055,
+      "usdArbitrum": 0.0033,
+      "usdPerMillionL1At2gwei": 211002
+    },
+    {
+      "path": "read",
+      "operation": "SSTORE2 code, binary credential",
+      "gasUsed": "28221",
+      "dataBytes": 377,
+      "notes": "estimateGas, includes 21,000 base",
+      "usdL1@0.5gwei": 0.0289,
+      "usdL1@2gwei": 0.1157,
+      "usdL1@10gwei": 0.5785,
+      "usdArbitrum": 0.00181,
+      "usdPerMillionL1At2gwei": 115706
+    },
+    {
+      "path": "credential on-chain",
+      "operation": "contract storage, JSON credential",
+      "gasUsed": "930034",
+      "calldataBytes": 1348,
+      "dataBytes": 1240,
+      "usdL1@0.5gwei": 0.9533,
+      "usdL1@2gwei": 3.8131,
+      "usdL1@10gwei": 19.0657,
+      "usdArbitrum": 0.05968,
+      "usdPerMillionL1At2gwei": 3813139
+    },
+    {
+      "path": "credential on-chain",
+      "operation": "SSTORE2 code, JSON credential",
+      "gasUsed": "351499",
+      "calldataBytes": 1348,
+      "dataBytes": 1240,
+      "usdL1@0.5gwei": 0.3603,
+      "usdL1@2gwei": 1.4411,
+      "usdL1@10gwei": 7.2057,
+      "usdArbitrum": 0.02255,
+      "usdPerMillionL1At2gwei": 1441146
+    },
+    {
+      "path": "credential on-chain",
+      "operation": "event log, JSON credential",
+      "gasUsed": "72850",
+      "calldataBytes": 1348,
+      "dataBytes": 1240,
+      "notes": "contracts cannot read it back",
+      "usdL1@0.5gwei": 0.0747,
+      "usdL1@2gwei": 0.2987,
+      "usdL1@10gwei": 1.4934,
+      "usdArbitrum": 0.00467,
+      "usdPerMillionL1At2gwei": 298685
+    },
+    {
+      "path": "IPFS pointer",
+      "operation": "32-byte digest, JSON credential",
+      "gasUsed": "44581",
+      "calldataBytes": 68,
+      "dataBytes": 32,
+      "notes": "encrypted copy off-chain: 1268 bytes",
+      "usdL1@0.5gwei": 0.0457,
+      "usdL1@2gwei": 0.1828,
+      "usdL1@10gwei": 0.9139,
+      "usdArbitrum": 0.00286,
+      "usdPerMillionL1At2gwei": 182782
+    },
+    {
+      "path": "IPFS pointer",
+      "operation": "full CIDv1 bytes, JSON credential",
+      "gasUsed": "89971",
+      "calldataBytes": 164,
+      "dataBytes": 36,
+      "notes": "encrypted copy off-chain: 1268 bytes",
+      "usdL1@0.5gwei": 0.0922,
+      "usdL1@2gwei": 0.3689,
+      "usdL1@10gwei": 1.8444,
+      "usdArbitrum": 0.00577,
+      "usdPerMillionL1At2gwei": 368881
+    },
+    {
+      "path": "read",
+      "operation": "contract storage, JSON credential",
+      "gasUsed": "111497",
+      "dataBytes": 1240,
+      "notes": "estimateGas, includes 21,000 base",
+      "usdL1@0.5gwei": 0.1143,
+      "usdL1@2gwei": 0.4571,
+      "usdL1@10gwei": 2.2857,
+      "usdArbitrum": 0.00715,
+      "usdPerMillionL1At2gwei": 457138
+    },
+    {
+      "path": "read",
+      "operation": "SSTORE2 code, JSON credential",
+      "gasUsed": "30366",
+      "dataBytes": 1240,
+      "notes": "estimateGas, includes 21,000 base",
+      "usdL1@0.5gwei": 0.0311,
+      "usdL1@2gwei": 0.1245,
+      "usdL1@10gwei": 0.6225,
+      "usdArbitrum": 0.00195,
+      "usdPerMillionL1At2gwei": 124501
+    },
+    {
+      "path": "retirement",
+      "operation": "retire",
+      "gasUsed": "113622",
+      "calldataBytes": 68,
+      "usdL1@0.5gwei": 0.1165,
+      "usdL1@2gwei": 0.4659,
+      "usdL1@10gwei": 2.3293,
+      "usdArbitrum": 0.00729,
+      "usdPerMillionL1At2gwei": 465850
+    },
+    {
+      "path": "retirement",
+      "operation": "recover (two EIP-712 signatures)",
+      "gasUsed": "70478",
+      "calldataBytes": 484,
+      "usdL1@0.5gwei": 0.0722,
+      "usdL1@2gwei": 0.289,
+      "usdL1@10gwei": 1.4448,
+      "usdArbitrum": 0.00452,
+      "usdPerMillionL1At2gwei": 288960
+    },
+    {
+      "path": "retirement",
+      "operation": "finalize (two EIP-712 signatures)",
+      "gasUsed": "69443",
+      "calldataBytes": 452,
+      "usdL1@0.5gwei": 0.0712,
+      "usdL1@2gwei": 0.2847,
+      "usdL1@10gwei": 1.4236,
+      "usdArbitrum": 0.00446,
+      "usdPerMillionL1At2gwei": 284716
+    }
+  ]
+}
