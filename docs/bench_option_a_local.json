@@ -1,0 +1,202 @@
+{
+  "generatedAt": "2026-10-08T18:39:35.876Z",
+  "network": "hardhat",
+  "assumptions": {
+    "ethUsd": 2050,
+    "l1Gwei": [
+      0.5,
+      2,
+      10
+    ],
+    "l2EffectiveGwei": 0.0313,
+    "note": "Mock bridges: the real Arbitrum Inbox and OP L1CrossDomainMessenger add their own L1 gas (not measured here). Rows marked 'registry logic only' isolate the registry."
+  },
+  "rows": [
+    {
+      "variant": "A1",
+      "chain": "Arbitrum",
+      "layer": "L1",
+      "step": "registerAndMint (incl. mock bridge)",
+      "gasUsed": "702927",
+      "usdL1@0.5gwei": 0.7205,
+      "usdL1@2gwei": 2.882,
+      "usdL1@10gwei": 14.41
+    },
+    {
+      "variant": "A1",
+      "chain": "Arbitrum",
+      "layer": "L2",
+      "step": "delivery: mintFromRegistry (incl. mock bridge)",
+      "gasUsed": "126398",
+      "usdL2": 0.00811
+    },
+    {
+      "variant": "A2",
+      "chain": "Arbitrum",
+      "layer": "L1",
+      "step": "commit",
+      "gasUsed": "45871",
+      "usdL1@0.5gwei": 0.047,
+      "usdL1@2gwei": 0.1881,
+      "usdL1@10gwei": 0.9404
+    },
+    {
+      "variant": "A2",
+      "chain": "Arbitrum",
+      "layer": "L1",
+      "step": "reveal (incl. mock bridge)",
+      "gasUsed": "305181",
+      "usdL1@0.5gwei": 0.3128,
+      "usdL1@2gwei": 1.2512,
+      "usdL1@10gwei": 6.2562
+    },
+    {
+      "variant": "A2",
+      "chain": "Arbitrum",
+      "layer": "L2",
+      "step": "delivery: authorizeSerial (incl. mock bridge)",
+      "gasUsed": "74490",
+      "usdL2": 0.00478
+    },
+    {
+      "variant": "A2",
+      "chain": "Arbitrum",
+      "layer": "L2",
+      "step": "mintBound (BBS verified on L2)",
+      "gasUsed": "377205",
+      "usdL2": 0.0242
+    },
+    {
+      "variant": "A1",
+      "chain": "OP Stack",
+      "layer": "L1",
+      "step": "registerAndMint (incl. mock bridge)",
+      "gasUsed": "583101",
+      "usdL1@0.5gwei": 0.5977,
+      "usdL1@2gwei": 2.3907,
+      "usdL1@10gwei": 11.9536
+    },
+    {
+      "variant": "A1",
+      "chain": "OP Stack",
+      "layer": "L2",
+      "step": "delivery: mintFromRegistry (incl. mock bridge)",
+      "gasUsed": "121122",
+      "usdL2": 0.00777
+    },
+    {
+      "variant": "A2",
+      "chain": "OP Stack",
+      "layer": "L1",
+      "step": "commit",
+      "gasUsed": "45871",
+      "usdL1@0.5gwei": 0.047,
+      "usdL1@2gwei": 0.1881,
+      "usdL1@10gwei": 0.9404
+    },
+    {
+      "variant": "A2",
+      "chain": "OP Stack",
+      "layer": "L1",
+      "step": "reveal (incl. mock bridge)",
+      "gasUsed": "185329",
+      "usdL1@0.5gwei": 0.19,
+      "usdL1@2gwei": 0.7598,
+      "usdL1@10gwei": 3.7992
+    },
+    {
+      "variant": "A2",
+      "chain": "OP Stack",
+      "layer": "L2",
+      "step": "delivery: authorizeSerial (incl. mock bridge)",
+      "gasUsed": "69332",
+      "usdL2": 0.00445
+    },
+    {
+      "variant": "A2",
+      "chain": "OP Stack",
+      "layer": "L2",
+      "step": "mintBound (BBS verified on L2)",
+      "gasUsed": "377263",
+      "usdL2": 0.02421
+    },
+    {
+      "variant": "A1",
+      "chain": "Arbitrum",
+      "layer": "L1",
+      "step": "registerAndMint (registry logic only)",
+      "gasUsed": "416145",
+      "usdL1@0.5gwei": 0.4265,
+      "usdL1@2gwei": 1.7062,
+      "usdL1@10gwei": 8.531
+    },
+    {
+      "variant": "A2",
+      "chain": "Arbitrum",
+      "layer": "L1",
+      "step": "commit (registry logic only)",
+      "gasUsed": "45871",
+      "usdL1@0.5gwei": 0.047,
+      "usdL1@2gwei": 0.1881,
+      "usdL1@10gwei": 0.9404
+    },
+    {
+      "variant": "A2",
+      "chain": "Arbitrum",
+      "layer": "L1",
+      "step": "reveal (registry logic only)",
+      "gasUsed": "79915",
+      "usdL1@0.5gwei": 0.0819,
+      "usdL1@2gwei": 0.3277,
+      "usdL1@10gwei": 1.6383
+    },
+    {
+      "variant": "A1",
+      "chain": "OP Stack",
+      "layer": "L1",
+      "step": "registerAndMint (registry logic only)",
+      "gasUsed": "409602",
+      "usdL1@0.5gwei": 0.4198,
+      "usdL1@2gwei": 1.6794,
+      "usdL1@10gwei": 8.3968
+    },
+    {
+      "variant": "A2",
+      "chain": "OP Stack",
+      "layer": "L1",
+      "step": "commit (registry logic only)",
+      "gasUsed": "45871",
+      "usdL1@0.5gwei": 0.047,
+      "usdL1@2gwei": 0.1881,
+      "usdL1@10gwei": 0.9404
+    },
+    {
+      "variant": "A2",
+      "chain": "OP Stack",
+      "layer": "L1",
+      "step": "reveal (registry logic only)",
+      "gasUsed": "73355",
+      "usdL1@0.5gwei": 0.0752,
+      "usdL1@2gwei": 0.3008,
+      "usdL1@10gwei": 1.5038
+    },
+    {
+      "variant": "A1",
+      "chain": "Arbitrum",
+      "layer": "L2",
+      "step": "mintFromRegistry (function only)",
+      "gasUsed": "59093",
+      "notes": "estimateGas, includes 21,000 base",
+      "usdL2": 0.00379
+    },
+    {
+      "variant": "A2",
+      "chain": "Arbitrum",
+      "layer": "L2",
+      "step": "authorizeSerial (function only)",
+      "gasUsed": "45247",
+      "notes": "estimateGas, includes 21,000 base",
+      "usdL2": 0.0029
+    }
+  ]
+}
